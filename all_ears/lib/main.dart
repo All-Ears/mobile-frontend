@@ -2,158 +2,167 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+              import 'package:flutter/cupertino.dart';
+          import 'package:flutter/material.dart';
+          import 'package:url_launcher/url_launcher.dart';
 
-void main() {
-  runApp(MaterialApp(
-    initialRoute: '/',
-    routes: {
+              void main() {
+      runApp(MaterialApp(
+      initialRoute: '/',
+      routes: {
       '/': (context) => HomeRoute(),
       '/second': (context) => SecondRoute(),
       '/third': (context) => ThirdRoute(),
       '/fourth': (context) => FourthRoute(),
       '/fifth': (context) => FifthRoute(),
-    },
-  ));
-}
+      },
+      ));
+      }
 
-class HomeRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+          class HomeRoute extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+      return Scaffold(
       appBar: AppBar(
-        title: Text('Home Page',
-            style: TextStyle(
-              fontSize: 30,
-            )),
-        backgroundColor: Colors.lightBlueAccent,
+      title: Text('Home Page',
+      style: TextStyle(
+      fontSize: 30,
+      )),
+      backgroundColor: Colors.lightBlueAccent,
       ),
       drawer: Container(
-        width: 215.0,
-        child: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
-                  },
-                ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
+      width: 215.0,
+      child: Drawer(
+      child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+      Container(
+      height: 110.0,
+      child: DrawerHeader(
+      decoration: BoxDecoration(
+      color: Colors.blue,
+      ),
+      child: Row(
+      children: [
+      Padding(
+      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+      child: ClipOval(
+      child: GestureDetector(
+      onTap: () {
+      Navigator.pushNamed(context, '/');
+      },
+      child: Image(
+      width: 55,
+      height: 55,
+      fit: BoxFit.cover,
+      image: AssetImage('assets/images/highreslogo.png'),
+      ),
+      ),
+      ),
+      ),
+      Padding(
+      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+      child: Text(
+      'AllEars',
+      style: TextStyle(
+      color: Colors.white,
+      fontSize: 24,
+      ),
+      ),
+      ),
+      ],
+      ),
+      ),
+      ),
+      ListTile(
+      leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+      title: Text('About'),
+      onTap: () {
+      Navigator.pushNamed(context, '/second');
+      },
+      ),
+      ListTile(
+      leading: Icon(Icons.calculate_outlined, color: Colors.red),
+      title: Text('Carbon Calculator'),
+      onTap: () {
+      Navigator.pushNamed(context, '/third');
+      },
+      ),
+      ListTile(
+      leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+      title: Text('Donate'),
+      onTap: () {
+      Navigator.pushNamed(context, '/fourth');
+      },
+      ),
+      Container(
+      child: ListTile(
+      leading: Icon(Icons.map_outlined, color: Colors.green),
+      title: Text('Elephant Map'),
+      onTap: () {
+      Navigator.pushNamed(context, '/fifth');
+      },
+      ),
+      decoration: BoxDecoration(
+      border: Border(bottom: BorderSide(color: Colors.black12)))),
+      ListTile(
+      title: Text('FAQ'),
+      onTap: () {
+      Navigator.pushNamed(context, '/');
+      },
+      ),
+      ListTile(
+      title: Text('Write a Review'),
+      onTap: () {
+      Navigator.pushNamed(context, '/');
+      },
+      ),
+      ],
+      )),
       ),
       body: Center(
-          child: Column(
-        children: <Widget>[
-          RaisedButton(
-            child: Text('About',
-                style: TextStyle(
-                  fontSize: 25,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/second');
-            },
-          ),
-          RaisedButton(
-            child: Text('Carbon Calculator',
-                style: TextStyle(
-                  fontSize: 25,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/third');
-            },
-          ),
-          RaisedButton(
-            child: Text('Donate',
-                style: TextStyle(
-                  fontSize: 25,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/fourth');
-            },
-          ),
-          RaisedButton(
+      child: Column(
+      children: <Widget>[
+      Text('Why should you care?',
+      style: TextStyle( fontSize: 25 )),
+
+      RaisedButton(
+      child: Text('About',
+      style: TextStyle(
+      fontSize: 20,
+      )),
+      onPressed: () {
+      Navigator.pushNamed(context, '/second');
+      },
+      ),
+      Text('How much carbon do flights emit?',
+      style: TextStyle( fontSize: 25 )),
+      RaisedButton(
+      child: Text('Carbon Calculator',
+      style: TextStyle(
+      fontSize: 20,
+      )),
+      onPressed: () {
+      Navigator.pushNamed(context, '/third');
+      },
+      ),
+      Text('Want to help the forest elephants?',
+      style: TextStyle( fontSize: 25 )),
+      RaisedButton(
+      child: Text('Donate',
+      style: TextStyle(
+      fontSize: 20,
+      )),
+      onPressed: () {
+      Navigator.pushNamed(context, '/fourth');
+      },
+      ),
+      Text('Where are these elephants?',
+      style: TextStyle( fontSize: 25 )),
+      RaisedButton(
             child: Text('Elephant Map',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                 )),
             onPressed: () {
               Navigator.pushNamed(context, '/fifth');
@@ -224,6 +233,7 @@ class SecondRoute extends StatelessWidget {
                   ),
                 ),
               ),
+
               ListTile(
                 leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
                 title: Text('About'),
@@ -231,6 +241,7 @@ class SecondRoute extends StatelessWidget {
                   Navigator.pushNamed(context, '/second');
                 },
               ),
+
               ListTile(
                 leading: Icon(Icons.calculate_outlined, color: Colors.red),
                 title: Text('Carbon Calculator'),
@@ -238,6 +249,7 @@ class SecondRoute extends StatelessWidget {
                   Navigator.pushNamed(context, '/third');
                 },
               ),
+
               ListTile(
                 leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600],),
                 title: Text('Donate'),
@@ -410,6 +422,7 @@ class ThirdRoute extends StatelessWidget {
                 ),
               ),
             ),
+
             ListTile(
               leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
               title: Text('About'),
@@ -589,7 +602,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://wildaid.org/about/ways-to-give/';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -597,7 +610,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 1",
+                          child: Text("Wild Aid",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -610,7 +623,7 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                       margin: EdgeInsets.only(bottom: 15.0),
                       child: Text(
-                    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                    "WildAid works to reduce global consumption of wildlife products and to increase local support for conservation efforts.",
                   ),
                   ),
                 ],
@@ -631,7 +644,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://www.wcs.org/our-work/species/african-elephants';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -639,7 +652,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 2",
+                          child: Text("WCS",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -652,7 +665,7 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "WCS supports rangers and help government agencies better manage rangers' patrols. WCS also helps protect elephants at key sites through the use of intelligence networks and aerial surveillance.",
                     ),
                   ),
                 ],
@@ -673,7 +686,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://www.tusk.org';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -681,7 +694,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 3",
+                          child: Text("Tusk",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -694,7 +707,7 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "Tusk works with its project partners to find sustainable solutions to preserve critical habitats, protect endangered species, combat the illegal wildlife trade, empower local communities and promote environmental education.",
                     ),
                   ),
                 ],
@@ -715,7 +728,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://www.speciesprotection.com/';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -723,7 +736,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 4",
+                          child: Text("ESPA",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -736,7 +749,7 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "The Endangered Species Protection Agency works within International Law and with local law enforcement to conserve and protect critically endangered and threatened species.",
                     ),
                   ),
                 ],
