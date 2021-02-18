@@ -75,7 +75,8 @@ class HomeRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -89,7 +90,8 @@ class HomeRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -123,37 +125,43 @@ class HomeRoute extends StatelessWidget {
       body: Center(
           child: Column(
         children: <Widget>[
+          Text('Why should you care?', style: TextStyle(fontSize: 25)),
           RaisedButton(
             child: Text('About',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                 )),
             onPressed: () {
               Navigator.pushNamed(context, '/second');
             },
           ),
+          Text('How much carbon do flights emit?',
+              style: TextStyle(fontSize: 25)),
           RaisedButton(
             child: Text('Carbon Calculator',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                 )),
             onPressed: () {
               Navigator.pushNamed(context, '/third');
             },
           ),
+          Text('Want to help the forest elephants?',
+              style: TextStyle(fontSize: 25)),
           RaisedButton(
             child: Text('Donate',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                 )),
             onPressed: () {
               Navigator.pushNamed(context, '/fourth');
             },
           ),
+          Text('Where are these elephants?', style: TextStyle(fontSize: 25)),
           RaisedButton(
             child: Text('Elephant Map',
                 style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                 )),
             onPressed: () {
               Navigator.pushNamed(context, '/fifth');
@@ -225,7 +233,8 @@ class SecondRoute extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+                leading: Icon(Icons.text_snippet_outlined,
+                    color: Colors.tealAccent[400]),
                 title: Text('About'),
                 onTap: () {
                   Navigator.pushNamed(context, '/second');
@@ -239,7 +248,10 @@ class SecondRoute extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600],),
+                leading: Icon(
+                  Icons.monetization_on_outlined,
+                  color: Colors.amber[600],
+                ),
                 title: Text('Donate'),
                 onTap: () {
                   Navigator.pushNamed(context, '/fourth');
@@ -254,7 +266,8 @@ class SecondRoute extends StatelessWidget {
                     },
                   ),
                   decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black12)))),
+                      border:
+                          Border(bottom: BorderSide(color: Colors.black12)))),
               ListTile(
                 title: Text('FAQ'),
                 onTap: () {
@@ -411,7 +424,8 @@ class ThirdRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -425,7 +439,8 @@ class ThirdRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -524,7 +539,8 @@ class FourthRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -538,7 +554,8 @@ class FourthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -589,7 +606,8 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url =
+                                'https://wildaid.org/about/ways-to-give/';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -597,7 +615,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 1",
+                          child: Text("Wild Aid",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -608,14 +626,13 @@ class FourthRoute extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
-                      margin: EdgeInsets.only(bottom: 15.0),
-                      child: Text(
-                    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
-                  ),
+                    margin: EdgeInsets.only(bottom: 15.0),
+                    child: Text(
+                      "WildAid works to reduce global consumption of wildlife products and to increase local support for conservation efforts.",
+                    ),
                   ),
                 ],
               ),
-
               Column(
                 children: [
                   Row(
@@ -631,7 +648,8 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url =
+                                'https://www.wcs.org/our-work/species/african-elephants';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -639,7 +657,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 2",
+                          child: Text("WCS",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -652,12 +670,11 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "WCS supports rangers and help government agencies better manage rangers' patrols. WCS also helps protect elephants at key sites through the use of intelligence networks and aerial surveillance.",
                     ),
                   ),
                 ],
               ),
-
               Column(
                 children: [
                   Row(
@@ -673,7 +690,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://www.tusk.org';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -681,7 +698,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 3",
+                          child: Text("Tusk",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -694,12 +711,11 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "Tusk works with its project partners to find sustainable solutions to preserve critical habitats, protect endangered species, combat the illegal wildlife trade, empower local communities and promote environmental education.",
                     ),
                   ),
                 ],
               ),
-
               Column(
                 children: [
                   Row(
@@ -715,7 +731,7 @@ class FourthRoute extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
-                            const url = 'https://google.com';
+                            const url = 'https://www.speciesprotection.com/';
 
                             if (await canLaunch(url)) {
                               await launch(url, forceSafariVC: false);
@@ -723,7 +739,7 @@ class FourthRoute extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: Text("Donation Site 4",
+                          child: Text("ESPA",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -736,7 +752,7 @@ class FourthRoute extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
-                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                      "The Endangered Species Protection Agency works within International Law and with local law enforcement to conserve and protect critically endangered and threatened species.",
                     ),
                   ),
                 ],
@@ -805,7 +821,8 @@ class FifthRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -819,7 +836,8 @@ class FifthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
