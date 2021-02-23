@@ -75,7 +75,8 @@ class HomeRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -89,7 +90,8 @@ class HomeRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -112,7 +114,7 @@ class HomeRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Write a Review'),
+              title: Text('Send Feedback'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
@@ -225,7 +227,8 @@ class SecondRoute extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+                leading: Icon(Icons.text_snippet_outlined,
+                    color: Colors.tealAccent[400]),
                 title: Text('About'),
                 onTap: () {
                   Navigator.pushNamed(context, '/second');
@@ -239,7 +242,10 @@ class SecondRoute extends StatelessWidget {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600],),
+                leading: Icon(
+                  Icons.monetization_on_outlined,
+                  color: Colors.amber[600],
+                ),
                 title: Text('Donate'),
                 onTap: () {
                   Navigator.pushNamed(context, '/fourth');
@@ -254,7 +260,8 @@ class SecondRoute extends StatelessWidget {
                     },
                   ),
                   decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black12)))),
+                      border:
+                          Border(bottom: BorderSide(color: Colors.black12)))),
               ListTile(
                 title: Text('FAQ'),
                 onTap: () {
@@ -262,7 +269,7 @@ class SecondRoute extends StatelessWidget {
                 },
               ),
               ListTile(
-                title: Text('Write a Review'),
+                title: Text('Send Feedback'),
                 onTap: () {
                   Navigator.pushNamed(context, '/');
                 },
@@ -411,7 +418,8 @@ class ThirdRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -425,7 +433,8 @@ class ThirdRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -448,7 +457,7 @@ class ThirdRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Write a Review'),
+              title: Text('Send Feedback'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
@@ -524,7 +533,8 @@ class FourthRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -538,7 +548,8 @@ class FourthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -561,7 +572,7 @@ class FourthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Write a Review'),
+              title: Text('Send Feedback'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
@@ -570,11 +581,12 @@ class FourthRoute extends StatelessWidget {
         )),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Column(
+                // 1st Donation Site
                 children: [
                   Row(
                     children: [
@@ -607,16 +619,16 @@ class FourthRoute extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                      margin: EdgeInsets.only(bottom: 15.0),
-                      child: Text(
-                    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
-                  ),
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
+                    ),
                   ),
                 ],
               ),
-
               Column(
+                // 2nd Donation Site
                 children: [
                   Row(
                     children: [
@@ -649,16 +661,16 @@ class FourthRoute extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    margin: EdgeInsets.only(bottom: 15.0),
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    margin: EdgeInsets.only(bottom: 20.0),
                     child: Text(
                       "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
                     ),
                   ),
                 ],
               ),
-
               Column(
+                // 3rd Donation Site
                 children: [
                   Row(
                     children: [
@@ -691,20 +703,21 @@ class FourthRoute extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    margin: EdgeInsets.only(bottom: 15.0),
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    margin: EdgeInsets.only(bottom: 20.0),
                     child: Text(
                       "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
                     ),
                   ),
                 ],
               ),
-
               Column(
+                // 4th Donation Site
                 children: [
                   Row(
                     children: [
                       Container(
+                        // Donation Image
                         width: 100,
                         height: 100,
                         child: Image(
@@ -712,6 +725,7 @@ class FourthRoute extends StatelessWidget {
                         ),
                       ),
                       Container(
+                        // Site Name
                         margin: EdgeInsets.symmetric(horizontal: 50.0),
                         child: GestureDetector(
                           onTap: () async {
@@ -733,8 +747,9 @@ class FourthRoute extends StatelessWidget {
                     ],
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
-                    margin: EdgeInsets.only(bottom: 15.0),
+                    // Site Info
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    margin: EdgeInsets.only(bottom: 20.0),
                     child: Text(
                       "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...",
                     ),
@@ -805,7 +820,8 @@ class FifthRoute extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.text_snippet_outlined, color: Colors.tealAccent[400]),
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
               title: Text('About'),
               onTap: () {
                 Navigator.pushNamed(context, '/second');
@@ -819,7 +835,8 @@ class FifthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
               title: Text('Donate'),
               onTap: () {
                 Navigator.pushNamed(context, '/fourth');
@@ -842,7 +859,7 @@ class FifthRoute extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Write a Review'),
+              title: Text('Send Feedback'),
               onTap: () {
                 Navigator.pushNamed(context, '/');
               },
