@@ -74,10 +74,42 @@ class HomeRoute extends StatelessWidget {
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 ListTile(
                   leading: Icon(Icons.text_snippet_outlined,
                       color: Colors.tealAccent[400]),
                   title: Text('About'),
+=======
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calculate_outlined, color: Colors.red),
+              title: Text('Carbon Calculator'),
+              onTap: () {
+                Navigator.pushNamed(context, '/third');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
+              title: Text('Donate'),
+              onTap: () {
+                Navigator.pushNamed(context, '/fourth');
+              },
+            ),
+            Container(
+                child: ListTile(
+                  leading: Icon(Icons.map_outlined, color: Colors.green),
+                  title: Text('Elephant Map'),
+>>>>>>> upstream/main
                   onTap: () {
                     Navigator.pushNamed(context, '/second');
                   },
@@ -124,6 +156,7 @@ class HomeRoute extends StatelessWidget {
       ),
       body: Center(
           child: Column(
+<<<<<<< HEAD
             children: <Widget>[
               Text('Why should you care?', style: TextStyle(fontSize: 25)),
               RaisedButton(
@@ -169,6 +202,53 @@ class HomeRoute extends StatelessWidget {
               ),
             ],
           )),
+=======
+        children: <Widget>[
+          Text('Why should you care?', style: TextStyle(fontSize: 25)),
+          RaisedButton(
+            child: Text('About',
+                style: TextStyle(
+                  fontSize: 20,
+                )),
+            onPressed: () {
+              Navigator.pushNamed(context, '/second');
+            },
+          ),
+          Text('How much carbon do flights emit?',
+              style: TextStyle(fontSize: 25)),
+          RaisedButton(
+            child: Text('Carbon Calculator',
+                style: TextStyle(
+                  fontSize: 20,
+                )),
+            onPressed: () {
+              Navigator.pushNamed(context, '/third');
+            },
+          ),
+          Text('Want to help the forest elephants?',
+              style: TextStyle(fontSize: 25)),
+          RaisedButton(
+            child: Text('Donate',
+                style: TextStyle(
+                  fontSize: 20,
+                )),
+            onPressed: () {
+              Navigator.pushNamed(context, '/fourth');
+            },
+          ),
+          Text('Where are these elephants?', style: TextStyle(fontSize: 25)),
+          RaisedButton(
+            child: Text('Elephant Map',
+                style: TextStyle(
+                  fontSize: 20,
+                )),
+            onPressed: () {
+              Navigator.pushNamed(context, '/fifth');
+            },
+          ),
+        ],
+      )),
+>>>>>>> upstream/main
     );
   }
 }
@@ -232,14 +312,49 @@ class SecondRoute extends StatelessWidget {
                       ),
                     ),
                   ),
+<<<<<<< HEAD
                   ListTile(
                     leading: Icon(Icons.text_snippet_outlined,
                         color: Colors.tealAccent[400]),
                     title: Text('About'),
+=======
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.text_snippet_outlined,
+                    color: Colors.tealAccent[400]),
+                title: Text('About'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/second');
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                title: Text('Carbon Calculator'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/third');
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.monetization_on_outlined,
+                  color: Colors.amber[600],
+                ),
+                title: Text('Donate'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/fourth');
+                },
+              ),
+              Container(
+                  child: ListTile(
+                    leading: Icon(Icons.map_outlined, color: Colors.green),
+                    title: Text('Elephant Map'),
+>>>>>>> upstream/main
                     onTap: () {
                       Navigator.pushNamed(context, '/second');
                     },
                   ),
+<<<<<<< HEAD
                   ListTile(
                     leading: Icon(Icons.calculate_outlined, color: Colors.red),
                     title: Text('Carbon Calculator'),
@@ -282,6 +397,25 @@ class SecondRoute extends StatelessWidget {
                   ),
                 ],
               )),
+=======
+                  decoration: BoxDecoration(
+                      border:
+                          Border(bottom: BorderSide(color: Colors.black12)))),
+              ListTile(
+                title: Text('FAQ'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/');
+                },
+              ),
+              ListTile(
+                title: Text('Write a Review'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/');
+                },
+              ),
+            ],
+          )),
+>>>>>>> upstream/main
         ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText2,
@@ -423,10 +557,42 @@ class ThirdRoute extends StatelessWidget {
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 ListTile(
                   leading: Icon(Icons.text_snippet_outlined,
                       color: Colors.tealAccent[400]),
                   title: Text('About'),
+=======
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calculate_outlined, color: Colors.red),
+              title: Text('Carbon Calculator'),
+              onTap: () {
+                Navigator.pushNamed(context, '/third');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
+              title: Text('Donate'),
+              onTap: () {
+                Navigator.pushNamed(context, '/fourth');
+              },
+            ),
+            Container(
+                child: ListTile(
+                  leading: Icon(Icons.map_outlined, color: Colors.green),
+                  title: Text('Elephant Map'),
+>>>>>>> upstream/main
                   onTap: () {
                     Navigator.pushNamed(context, '/second');
                   },
@@ -538,10 +704,42 @@ class FourthRoute extends StatelessWidget {
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 ListTile(
                   leading: Icon(Icons.text_snippet_outlined,
                       color: Colors.tealAccent[400]),
                   title: Text('About'),
+=======
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calculate_outlined, color: Colors.red),
+              title: Text('Carbon Calculator'),
+              onTap: () {
+                Navigator.pushNamed(context, '/third');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
+              title: Text('Donate'),
+              onTap: () {
+                Navigator.pushNamed(context, '/fourth');
+              },
+            ),
+            Container(
+                child: ListTile(
+                  leading: Icon(Icons.map_outlined, color: Colors.green),
+                  title: Text('Elephant Map'),
+>>>>>>> upstream/main
                   onTap: () {
                     Navigator.pushNamed(context, '/second');
                   },
@@ -820,10 +1018,42 @@ class FifthRoute extends StatelessWidget {
                     ),
                   ),
                 ),
+<<<<<<< HEAD
                 ListTile(
                   leading: Icon(Icons.text_snippet_outlined,
                       color: Colors.tealAccent[400]),
                   title: Text('About'),
+=======
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_snippet_outlined,
+                  color: Colors.tealAccent[400]),
+              title: Text('About'),
+              onTap: () {
+                Navigator.pushNamed(context, '/second');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.calculate_outlined, color: Colors.red),
+              title: Text('Carbon Calculator'),
+              onTap: () {
+                Navigator.pushNamed(context, '/third');
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.monetization_on_outlined,
+                  color: Colors.amber[600]),
+              title: Text('Donate'),
+              onTap: () {
+                Navigator.pushNamed(context, '/fourth');
+              },
+            ),
+            Container(
+                child: ListTile(
+                  leading: Icon(Icons.map_outlined, color: Colors.green),
+                  title: Text('Elephant Map'),
+>>>>>>> upstream/main
                   onTap: () {
                     Navigator.pushNamed(context, '/second');
                   },
