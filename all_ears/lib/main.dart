@@ -15,6 +15,7 @@ void main() {
       '/third': (context) => ThirdRoute(),
       '/fourth': (context) => FourthRoute(),
       '/fifth': (context) => FifthRoute(),
+      '/sixth': (context) => SixthRoute(),
     },
   ));
 }
@@ -34,141 +35,144 @@ class HomeRoute extends StatelessWidget {
         width: 215.0,
         child: Drawer(
             child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 110.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                          child: ClipOval(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Image(
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/highreslogo.png'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Text(
+                            'AllEars',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
+                ListTile(
+                  leading: Icon(Icons.text_snippet_outlined,
+                      color: Colors.tealAccent[400]),
+                  title: Text('About Us'),
                   onTap: () {
+                    Navigator.pushNamed(context, '/second');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                  title: Text('Carbon Calculator'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.monetization_on_outlined,
+                      color: Colors.amber[600]),
+                  title: Text('Donate'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Container(
+                    child: ListTile(
+                      leading: Icon(Icons.map_outlined, color: Colors.green),
+                      title: Text('Elephant Map'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifth');
+                      },
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.black12)))),
+                ListTile(
+                  title: Text('FAQ'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/sixth');
+                  },
+                ),
+                ListTile(
+                  title: Text('Write a Review'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                ),
+              ],
+            )),
+      ),
+      body: Container(
+        margin: EdgeInsets.all(10.0),
+        child: Center(
+            child: Column(
+              children: <Widget>[
+                Text('Why should you care?', style: TextStyle(fontSize: 25)),
+                RaisedButton(
+                  child: Text('About',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/second');
+                  },
+                ),
+                Text('How much carbon do flights emit?',
+                    style: TextStyle(fontSize: 25)),
+                RaisedButton(
+                  child: Text('Carbon Calculator',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                Text('Want to help the forest elephants?',
+                    style: TextStyle(fontSize: 25)),
+                RaisedButton(
+                  child: Text('Donate',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Text('Where are these elephants?', style: TextStyle(fontSize: 25)),
+                RaisedButton(
+                  child: Text('Elephant Map',
+                      style: TextStyle(
+                        fontSize: 20,
+                      )),
+                  onPressed: () {
                     Navigator.pushNamed(context, '/fifth');
                   },
                 ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
+              ],
+            )),
       ),
-      body: Center(
-          child: Column(
-        children: <Widget>[
-          Text('Why should you care?', style: TextStyle(fontSize: 25)),
-          RaisedButton(
-            child: Text('About',
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/second');
-            },
-          ),
-          Text('How much carbon do flights emit?',
-              style: TextStyle(fontSize: 25)),
-          RaisedButton(
-            child: Text('Carbon Calculator',
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/third');
-            },
-          ),
-          Text('Want to help the forest elephants?',
-              style: TextStyle(fontSize: 25)),
-          RaisedButton(
-            child: Text('Donate',
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/fourth');
-            },
-          ),
-          Text('Where are these elephants?', style: TextStyle(fontSize: 25)),
-          RaisedButton(
-            child: Text('Elephant Map',
-                style: TextStyle(
-                  fontSize: 20,
-                )),
-            onPressed: () {
-              Navigator.pushNamed(context, '/fifth');
-            },
-          ),
-        ],
-      )),
     );
   }
 }
@@ -179,7 +183,7 @@ class SecondRoute extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "About Page",
+            "About Us",
             style: TextStyle(
               fontSize: 30,
             ),
@@ -190,98 +194,98 @@ class SecondRoute extends StatelessWidget {
           width: 215.0,
           child: Drawer(
               child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              Container(
-                height: 110.0,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding:
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  Container(
+                    height: 110.0,
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                      ),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding:
                             const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                        child: ClipOval(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/');
-                            },
-                            child: Image(
-                              width: 55,
-                              height: 55,
-                              fit: BoxFit.cover,
-                              image:
+                            child: ClipOval(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/');
+                                },
+                                child: Image(
+                                  width: 55,
+                                  height: 55,
+                                  fit: BoxFit.cover,
+                                  image:
                                   AssetImage('assets/images/highreslogo.png'),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                        child: Text(
-                          'AllEars',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                            child: Text(
+                              'AllEars',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.text_snippet_outlined,
-                    color: Colors.tealAccent[400]),
-                title: Text('About'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/second');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.calculate_outlined, color: Colors.red),
-                title: Text('Carbon Calculator'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/third');
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.monetization_on_outlined,
-                  color: Colors.amber[600],
-                ),
-                title: Text('Donate'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/fourth');
-                },
-              ),
-              Container(
-                  child: ListTile(
-                    leading: Icon(Icons.map_outlined, color: Colors.green),
-                    title: Text('Elephant Map'),
+                  ListTile(
+                    leading: Icon(Icons.text_snippet_outlined,
+                        color: Colors.tealAccent[400]),
+                    title: Text('About Us'),
                     onTap: () {
-                      Navigator.pushNamed(context, '/fifth');
+                      Navigator.pushNamed(context, '/second');
                     },
                   ),
-                  decoration: BoxDecoration(
-                      border:
+                  ListTile(
+                    leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                    title: Text('Carbon Calculator'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/third');
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.monetization_on_outlined,
+                      color: Colors.amber[600],
+                    ),
+                    title: Text('Donate'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/fourth');
+                    },
+                  ),
+                  Container(
+                      child: ListTile(
+                        leading: Icon(Icons.map_outlined, color: Colors.green),
+                        title: Text('Elephant Map'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/fifth');
+                        },
+                      ),
+                      decoration: BoxDecoration(
+                          border:
                           Border(bottom: BorderSide(color: Colors.black12)))),
-              ListTile(
-                title: Text('FAQ'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/');
-                },
-              ),
-              ListTile(
-                title: Text('Write a Review'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/');
-                },
-              ),
-            ],
-          )),
+                  ListTile(
+                    title: Text('FAQ'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/sixth');
+                    },
+                  ),
+                  ListTile(
+                    title: Text('Write a Review'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/');
+                    },
+                  ),
+                ],
+              )),
         ),
         body: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyText2,
@@ -383,93 +387,93 @@ class ThirdRoute extends StatelessWidget {
         width: 215.0,
         child: Drawer(
             child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 110.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                          child: ClipOval(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Image(
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/highreslogo.png'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Text(
+                            'AllEars',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
+                ListTile(
+                  leading: Icon(Icons.text_snippet_outlined,
+                      color: Colors.tealAccent[400]),
+                  title: Text('About Us'),
                   onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
+                    Navigator.pushNamed(context, '/second');
                   },
                 ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
+                ListTile(
+                  leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                  title: Text('Carbon Calculator'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.monetization_on_outlined,
+                      color: Colors.amber[600]),
+                  title: Text('Donate'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Container(
+                    child: ListTile(
+                      leading: Icon(Icons.map_outlined, color: Colors.green),
+                      title: Text('Elephant Map'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifth');
+                      },
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.black12)))),
+                ListTile(
+                  title: Text('FAQ'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/sixth');
+                  },
+                ),
+                ListTile(
+                  title: Text('Write a Review'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                ),
+              ],
+            )),
       ),
       body: Center(
         child: RaisedButton(
@@ -498,93 +502,93 @@ class FourthRoute extends StatelessWidget {
         width: 215.0,
         child: Drawer(
             child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 110.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                          child: ClipOval(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Image(
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/highreslogo.png'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Text(
+                            'AllEars',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
+                ListTile(
+                  leading: Icon(Icons.text_snippet_outlined,
+                      color: Colors.tealAccent[400]),
+                  title: Text('About Us'),
                   onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
+                    Navigator.pushNamed(context, '/second');
                   },
                 ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
+                ListTile(
+                  leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                  title: Text('Carbon Calculator'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.monetization_on_outlined,
+                      color: Colors.amber[600]),
+                  title: Text('Donate'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Container(
+                    child: ListTile(
+                      leading: Icon(Icons.map_outlined, color: Colors.green),
+                      title: Text('Elephant Map'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifth');
+                      },
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.black12)))),
+                ListTile(
+                  title: Text('FAQ'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/sixth');
+                  },
+                ),
+                ListTile(
+                  title: Text('Write a Review'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                ),
+              ],
+            )),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
@@ -593,36 +597,23 @@ class FourthRoute extends StatelessWidget {
             children: <Widget>[
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        child: Image(
-                          image: AssetImage('assets/images/donation1.jpg'),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            const url =
-                                'https://wildaid.org/about/ways-to-give/';
+                  Container(
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: () async {
+                        const url =
+                            'https://wildaid.org/about/ways-to-give/';
 
-                            if (await canLaunch(url)) {
-                              await launch(url, forceSafariVC: false);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Text("Wild Aid",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      )
-                    ],
+                        if (await canLaunch(url)) {
+                          await launch(url, forceSafariVC: false);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      child: Image(
+                        image: AssetImage('assets/images/wildaid-logo.jpg'),
+                      ),
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -635,36 +626,23 @@ class FourthRoute extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        child: Image(
-                          image: AssetImage('assets/images/donation2.png'),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            const url =
-                                'https://www.wcs.org/our-work/species/african-elephants';
+                  Container(
+                    width: 200,
+                    child: GestureDetector(
+                        onTap: () async {
+                          const url =
+                              'https://www.wcs.org/our-work/species/african-elephants';
 
-                            if (await canLaunch(url)) {
-                              await launch(url, forceSafariVC: false);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Text("WCS",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      )
-                    ],
+                          if (await canLaunch(url)) {
+                            await launch(url, forceSafariVC: false);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                      child: Image(
+                        image: AssetImage('assets/images/Wildlife-Conservation-Society-logo.png'),
+                      ),
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -677,36 +655,24 @@ class FourthRoute extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        child: Image(
-                          image: AssetImage('assets/images/donation3.jpg'),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            const url = 'https://www.tusk.org';
+                  Container(
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: () async {
+                        const url = 'https://www.tusk.org';
 
-                            if (await canLaunch(url)) {
-                              await launch(url, forceSafariVC: false);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Text("Tusk",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      )
-                    ],
+                        if (await canLaunch(url)) {
+                          await launch(url, forceSafariVC: false);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      child: Image(
+                        image: AssetImage('assets/images/Tusk-logo.png'),
+                      ),
+                    ),
                   ),
+
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
@@ -718,36 +684,24 @@ class FourthRoute extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        child: Image(
-                          image: AssetImage('assets/images/donation4.jpg'),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 50.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            const url = 'https://www.speciesprotection.com/';
+                  Container(
+                    width: 200,
+                    child: GestureDetector(
+                      onTap: () async {
+                        const url = 'https://www.speciesprotection.com/';
 
-                            if (await canLaunch(url)) {
-                              await launch(url, forceSafariVC: false);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: Text("ESPA",
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      )
-                    ],
+                        if (await canLaunch(url)) {
+                          await launch(url, forceSafariVC: false);
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
+                      child: Image(
+                        image: AssetImage('assets/images/espa-logo.png'),
+                      ),
+                    ),
                   ),
+
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     margin: EdgeInsets.only(bottom: 15.0),
@@ -780,93 +734,208 @@ class FifthRoute extends StatelessWidget {
         width: 215.0,
         child: Drawer(
             child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 110.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                          child: ClipOval(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Image(
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/highreslogo.png'),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Text(
+                            'AllEars',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
+                ListTile(
+                  leading: Icon(Icons.text_snippet_outlined,
+                      color: Colors.tealAccent[400]),
+                  title: Text('About Us'),
                   onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
+                    Navigator.pushNamed(context, '/second');
                   },
                 ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
+                ListTile(
+                  leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                  title: Text('Carbon Calculator'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.monetization_on_outlined,
+                      color: Colors.amber[600]),
+                  title: Text('Donate'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Container(
+                    child: ListTile(
+                      leading: Icon(Icons.map_outlined, color: Colors.green),
+                      title: Text('Elephant Map'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifth');
+                      },
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.black12)))),
+                ListTile(
+                  title: Text('FAQ'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/sixth');
+                  },
+                ),
+                ListTile(
+                  title: Text('Write a Review'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                ),
+              ],
+            )),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Back!'),
+        ),
+      ),
+    );
+  }
+}
+
+class SixthRoute extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Frequently Asked Questions",
+            style: TextStyle(
+              fontSize: 24,
+            )),
+        backgroundColor: Colors.lightGreen,
+      ),
+      drawer: Container(
+        width: 215.0,
+        child: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                Container(
+                  height: 110.0,
+                  child: DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                          child: ClipOval(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/');
+                              },
+                              child: Image(
+                                width: 55,
+                                height: 55,
+                                fit: BoxFit.cover,
+                                image: AssetImage('assets/images/highreslogo.png'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                          child: Text(
+                            'AllEars',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.text_snippet_outlined,
+                      color: Colors.tealAccent[400]),
+                  title: Text('About Us'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/second');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.calculate_outlined, color: Colors.red),
+                  title: Text('Carbon Calculator'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/third');
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.monetization_on_outlined,
+                      color: Colors.amber[600]),
+                  title: Text('Donate'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/fourth');
+                  },
+                ),
+                Container(
+                    child: ListTile(
+                      leading: Icon(Icons.map_outlined, color: Colors.green),
+                      title: Text('Elephant Map'),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/fifth');
+                      },
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.black12)))),
+                ListTile(
+                  title: Text('FAQ'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/sixth');
+                  },
+                ),
+                ListTile(
+                  title: Text('Write a Review'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/');
+                  },
+                ),
+              ],
+            )),
       ),
       body: Center(
         child: RaisedButton(
