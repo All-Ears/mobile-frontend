@@ -50,8 +50,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     ];
 
     _zoomPanBehavior = MapZoomPanBehavior(
-      focalLatLng: MapLatLng(22.9734, 90.6569),
-      zoomLevel: 3,
+      focalLatLng: MapLatLng(0, 0),
+      zoomLevel: 1,
     );
 
     animationController = AnimationController(
@@ -178,7 +178,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
             padding: EdgeInsets.all(mainPading),
             children: [
               Container(
-                height: constraints.maxHeight - mainPading * 2,
+                height: constraints.maxHeight/1.5,
                 child: SfMapsTheme(
                   data: SfMapsThemeData(
                     dataLabelTextStyle: TextStyle(
@@ -214,14 +214,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
                                 color: Colors.white,
-                                height: 80,
-                                width: 400,
+                                height: 150,
+                                width: 350,
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         Text(
-                                            'The distance between \n$st_name and $nd_name'),
+                                            'The distance between \n$st_name \nand\n $nd_name'),
                                       ],
                                     ),
                                     Padding(
@@ -229,7 +229,9 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                       child: Row(
                                         children: [
                                           Text(
-                                              'Distance  : ${calculateLngLat(line[index].from, line[index].to)} km'),
+                                              'Distance : ${calculateLngLat(line[index].from, line[index].to)} km \n'
+                                              'Carbon Emitted : ${(calculateLngLat(line[index].from, line[index].to)*(12/44)*0.29).round()} kg/km \n'
+                                              'Suggested Donation : PLACEHOLDER usd \n'),
                                         ],
                                       ),
                                     )
