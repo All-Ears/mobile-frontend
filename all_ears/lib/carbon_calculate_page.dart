@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'app_drawer.dart';
 
 const MAPBOX_TOKEN =
     "pk.eyJ1Ijoid2VpbmJlcmdlcmphcmVkIiwiYSI6ImNraTJlZ3JsMzA5bWwycW1pbWp5OHAzd2sifQ.8kHj1dSkSP7DXJOAFhnL8w";
@@ -50,11 +51,12 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     ];
 
     _zoomPanBehavior = MapZoomPanBehavior(
-      focalLatLng: MapLatLng(22.9734, 90.6569),
-      zoomLevel: 3,
+      focalLatLng: MapLatLng(0, 0),
+      zoomLevel: 1,
     );
 
-    animationController = AnimationController(
+/*
+ animationController = AnimationController(
       duration: Duration(seconds: 5),
       vsync: this,
     );
@@ -65,6 +67,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     );
     animationController.forward(from: 0);
     super.initState();
+ */
+
   }
 
   @override
@@ -80,105 +84,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
       appBar: AppBar(
         title: Text('Carbon Calculator'),
       ),
-      drawer: Container(
-        width: 215.0,
-        child: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About Us'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
-                  },
-                ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/sixth');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
-      ),
+      drawer: AppDrawer(),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return ListView(
             shrinkWrap: true,
             padding: EdgeInsets.all(mainPading),
             children: [
               Container(
-                height: constraints.maxHeight - mainPading * 2,
+                height: constraints.maxHeight - mainPading/1.5 ,
                 child: SfMapsTheme(
                   data: SfMapsThemeData(
                     dataLabelTextStyle: TextStyle(
@@ -208,7 +121,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                               },
                             ).toSet(),
                             color: Colors.lightBlue,
-                            animation: animation,
+                            //animation: animation,
                             tooltipBuilder: (BuildContext context, int index) {
                               return Container(
                                 padding: EdgeInsets.symmetric(
@@ -221,7 +134,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                     Row(
                                       children: [
                                         Text(
-                                            'The distance between \n$st_name and $nd_name'),
+                                            'The distance between \n$st_name and \n $nd_name'),
                                       ],
                                     ),
                                     Padding(
@@ -232,6 +145,13 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                               'Distance  : ${calculateLngLat(line[index].from, line[index].to)} km'),
                                         ],
                                       ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'The Catbon Emission are $calculCarbon(calculateLngLat(line[index].from, line[index].to)'
+                                        )
+                                      ],
                                     )
                                   ],
                                 ),
@@ -396,4 +316,9 @@ int calculateLngLat(MapLatLng PointA, MapLatLng PointB) {
           (1 - c((PointB.longitude - PointA.longitude) * p)) /
           2;
   return (12742 * asin(sqrt(a))).round();
+}
+
+double calculCarbon(double distance){
+  double carbon;
+  carbon = distance *( (12/44)* 101);
 }
