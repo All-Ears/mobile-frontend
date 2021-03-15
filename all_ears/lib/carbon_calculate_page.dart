@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'app_drawer.dart';
 
 const MAPBOX_TOKEN =
     "pk.eyJ1Ijoid2VpbmJlcmdlcmphcmVkIiwiYSI6ImNraTJlZ3JsMzA5bWwycW1pbWp5OHAzd2sifQ.8kHj1dSkSP7DXJOAFhnL8w";
@@ -54,7 +55,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
       zoomLevel: 1,
     );
 
-    animationController = AnimationController(
+/*
+ animationController = AnimationController(
       duration: Duration(seconds: 5),
       vsync: this,
     );
@@ -65,6 +67,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     );
     animationController.forward(from: 0);
     super.initState();
+ */
   }
 
   @override
@@ -80,105 +83,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
       appBar: AppBar(
         title: Text('Carbon Calculator'),
       ),
-      drawer: Container(
-        width: 215.0,
-        child: Drawer(
-            child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 110.0,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                      child: ClipOval(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/');
-                          },
-                          child: Image(
-                            width: 55,
-                            height: 55,
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/highreslogo.png'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-                      child: Text(
-                        'AllEars',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.text_snippet_outlined,
-                  color: Colors.tealAccent[400]),
-              title: Text('About Us'),
-              onTap: () {
-                Navigator.pushNamed(context, '/second');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.calculate_outlined, color: Colors.red),
-              title: Text('Carbon Calculator'),
-              onTap: () {
-                Navigator.pushNamed(context, '/third');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.monetization_on_outlined,
-                  color: Colors.amber[600]),
-              title: Text('Donate'),
-              onTap: () {
-                Navigator.pushNamed(context, '/fourth');
-              },
-            ),
-            Container(
-                child: ListTile(
-                  leading: Icon(Icons.map_outlined, color: Colors.green),
-                  title: Text('Elephant Map'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/fifth');
-                  },
-                ),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black12)))),
-            ListTile(
-              title: Text('FAQ'),
-              onTap: () {
-                Navigator.pushNamed(context, '/sixth');
-              },
-            ),
-            ListTile(
-              title: Text('Write a Review'),
-              onTap: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-          ],
-        )),
-      ),
+      drawer: AppDrawer(),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return ListView(
             shrinkWrap: true,
             padding: EdgeInsets.all(mainPading),
             children: [
               Container(
-                height: constraints.maxHeight/1.5,
+                height: constraints.maxHeight / 1.5,
                 child: SfMapsTheme(
                   data: SfMapsThemeData(
                     dataLabelTextStyle: TextStyle(
@@ -208,7 +120,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                               },
                             ).toSet(),
                             color: Colors.lightBlue,
-                            animation: animation,
+                            //animation: animation,
                             tooltipBuilder: (BuildContext context, int index) {
                               return Container(
                                 padding: EdgeInsets.symmetric(
@@ -221,7 +133,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                     Row(
                                       children: [
                                         Text(
-                                            'The distance between \n$st_name \nand\n $nd_name'),
+                                            'The distance between \n$st_name and \n $nd_name'),
                                       ],
                                     ),
                                     Padding(
@@ -230,10 +142,16 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                         children: [
                                           Text(
                                               'Distance : ${calculateLngLat(line[index].from, line[index].to)} km \n'
-                                              'Carbon Emitted : ${(calculateLngLat(line[index].from, line[index].to)*(12/44)*0.29).round()} kg/km \n'
+                                              'Carbon Emitted : ${(calculateLngLat(line[index].from, line[index].to) * (12 / 44) * 0.29).round()} kg/km \n'
                                               'Suggested Donation : PLACEHOLDER usd \n'),
                                         ],
                                       ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                            'The Catbon Emission are $calculCarbon(calculateLngLat(line[index].from, line[index].to)')
+                                      ],
                                     )
                                   ],
                                 ),
@@ -253,12 +171,10 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     TextFormField(
                       controller: startPointController,
                       inputFormatters: [toUpperCase()],
-                      decoration: InputDecoration(
-                          labelText: 'Starting Airport'
-                      ),
+                      decoration:
+                          InputDecoration(labelText: 'Starting Airport'),
                       validator: (string) {
-                        if(string.isEmpty)
-                        {
+                        if (string.isEmpty) {
                           return "Please enter an airport code";
                         }
                         return null;
@@ -267,12 +183,9 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     TextFormField(
                       controller: endPointController,
                       inputFormatters: [toUpperCase()],
-                      decoration: InputDecoration(
-                          labelText: 'Ending Airport'
-                      ),
+                      decoration: InputDecoration(labelText: 'Ending Airport'),
                       validator: (string) {
-                        if(string.isEmpty)
-                        {
+                        if (string.isEmpty) {
                           return "Please enter an airport code";
                         }
                         return null;
@@ -283,8 +196,9 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                         child: ElevatedButton(
                           child: Text("Submit"),
                           onPressed: () {
-                            if((_formKey.currentState.validate())){
-                              get_airport_info(startPointController.text, endPointController.text);
+                            if ((_formKey.currentState.validate())) {
+                              get_airport_info(startPointController.text,
+                                  endPointController.text);
                               setState(() {
                                 line = [
                                   LineModel(
@@ -293,22 +207,21 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                 ];
                               });
                             }
-
                           },
                         ))
                   ],
                 ),
               )
-
             ]);
       }),
     );
   }
 }
 
-class toUpperCase extends TextInputFormatter{
+class toUpperCase extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     return newValue.copyWith(text: newValue.text.toUpperCase());
   }
 }
@@ -339,7 +252,7 @@ Future<void> get_airport_info(String startCode, String endCode) async {
     "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
     "useQueryString": 'true'
   });
-  
+
   //print(skyScannerResponse.body);
   var parsed_body_st = jsonDecode(skyScannerResponse_st.body);
   var parsed_body_nd = jsonDecode(skyScannerResponse_nd.body);
@@ -351,16 +264,16 @@ Future<void> get_airport_info(String startCode, String endCode) async {
   var iata_code_st = place_id_st.substring(0, place_id_st.length - 4);
   var iata_code_nd = place_id_nd.substring(0, place_id_nd.length - 4);
 
-  var airport_uri_st =
-      Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_st});
+  var airport_uri_st = Uri.https(
+      'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_st});
   var airPortLocation_st = await http.get(airport_uri_st, headers: {
     "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
     "x-rapidapi-host": "airport-info.p.rapidapi.com",
     "useQueryString": 'true'
   });
 
-  var airport_uri_nd =
-  Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_nd});
+  var airport_uri_nd = Uri.https(
+      'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_nd});
   var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
     "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
     "x-rapidapi-host": "airport-info.p.rapidapi.com",
@@ -382,7 +295,7 @@ Future<void> get_airport_info(String startCode, String endCode) async {
   st_latitude = parse_body_st['latitude'];
   st_longitude = parse_body_st['longitude'];
   st_name = parse_body_st['name'];
-  
+
   nd_latitude = parse_body_nd['latitude'];
   nd_longitude = parse_body_nd['longitude'];
   nd_name = parse_body_nd['name'];
@@ -398,4 +311,9 @@ int calculateLngLat(MapLatLng PointA, MapLatLng PointB) {
           (1 - c((PointB.longitude - PointA.longitude) * p)) /
           2;
   return (12742 * asin(sqrt(a))).round();
+}
+
+double calculCarbon(double distance) {
+  double carbon;
+  carbon = distance * ((12 / 44) * 101);
 }
