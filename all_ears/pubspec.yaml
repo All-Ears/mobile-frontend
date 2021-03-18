@@ -58,6 +58,7 @@ flutter:
      - assets/images/Tusk-logo.png
      - assets/images/espa-logo.png
      - assets/map/africa.geojson
+     - assets/images/highreslogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

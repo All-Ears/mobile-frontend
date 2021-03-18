@@ -15,14 +15,6 @@ const MAPBOX_TOKEN =
 final startPointController = TextEditingController();
 final endPointController = TextEditingController();
 
-double st_latitude = 0.0;
-double st_longitude = 0.0;
-var st_name;
-
-double nd_latitude = 0.0;
-double nd_longitude = 0.0;
-var nd_name;
-
 final _formKey = GlobalKey<FormState>();
 
 class CarbonCalculatePage extends StatefulWidget {
@@ -42,6 +34,13 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
   List<LineModel> line;
   MapShapeSource worldmap;
   String userInput;
+  double st_latitude = 0.0;
+  double st_longitude = 0.0;
+  var st_name;
+
+  double nd_latitude = 0.0;
+  double nd_longitude = 0.0;
+  var nd_name;
 
   @override
   void initState() {
@@ -55,7 +54,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
       zoomLevel: 1,
     );
 
-/*
+
  animationController = AnimationController(
       duration: Duration(seconds: 5),
       vsync: this,
@@ -67,18 +66,21 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     );
     animationController.forward(from: 0);
     super.initState();
- */
+
   }
 
   @override
-  void dispos() {
+  void dispose() {
     animationController?.dispose();
     super.dispose();
   }
 
+  var text = "Calculate";
+
   @override
   Widget build(BuildContext context) {
     const mainPading = 14.0;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Carbon Calculator'),
@@ -120,20 +122,20 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                               },
                             ).toSet(),
                             color: Colors.lightBlue,
-                            //animation: animation,
+                            animation: animation,
                             tooltipBuilder: (BuildContext context, int index) {
                               return Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 10),
                                 color: Colors.white,
-                                height: 150,
+                                height: 145,
                                 width: 350,
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         Text(
-                                            'The distance between \n$st_name and \n $nd_name'),
+                                            'The distance between \n$st_name and \n$nd_name'),
                                       ],
                                     ),
                                     Padding(
@@ -142,17 +144,11 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                         children: [
                                           Text(
                                               'Distance : ${calculateLngLat(line[index].from, line[index].to)} km \n'
-                                              'Carbon Emitted : ${(calculateLngLat(line[index].from, line[index].to) * (12 / 44) * 0.29).round()} kg/km \n'
-                                              'Suggested Donation : PLACEHOLDER usd \n'),
+                                              'Total Carbon Emitted : ${(calculateLngLat(line[index].from, line[index].to) * (12 / 44) * 0.29).round()} kg \n'
+                                              'Suggested Donation : ${(calculateLngLat(line[index].from, line[index].to) * (12 / 44) * 0.29).round() / 1000} usd \n'),
                                         ],
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                            'The Catbon Emission are $calculCarbon(calculateLngLat(line[index].from, line[index].to)')
-                                      ],
-                                    )
                                   ],
                                 ),
                               );
@@ -171,11 +167,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     TextFormField(
                       controller: startPointController,
                       inputFormatters: [toUpperCase()],
-                      decoration:
-                          InputDecoration(labelText: 'Starting Airport'),
+                      decoration: InputDecoration(
+                          labelText: 'Starting Airport',
+                          hintText: 'Enter a location',
+                          hintStyle:
+                              TextStyle(fontSize: 12, color: Colors.pink)),
                       validator: (string) {
                         if (string.isEmpty) {
-                          return "Please enter an airport code";
+                          return "This field is required";
                         }
                         return null;
                       },
@@ -183,10 +182,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     TextFormField(
                       controller: endPointController,
                       inputFormatters: [toUpperCase()],
-                      decoration: InputDecoration(labelText: 'Ending Airport'),
+                      decoration: InputDecoration(
+                          labelText: 'Ending Airport',
+                          hintText: 'Enter a location',
+                          hintStyle:
+                              TextStyle(fontSize: 12, color: Colors.pink)),
                       validator: (string) {
                         if (string.isEmpty) {
-                          return "Please enter an airport code";
+                          return "This field is required";
                         }
                         return null;
                       },
@@ -194,17 +197,22 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
-                          child: Text("Submit"),
+                          child: Text("$text"),
                           onPressed: () {
+                            //changeString();
+                            print(startPointController.text);
+                            print(endPointController.text);
                             if ((_formKey.currentState.validate())) {
                               get_airport_info(startPointController.text,
-                                  endPointController.text);
-                              setState(() {
-                                line = [
-                                  LineModel(
-                                      MapLatLng(st_latitude, st_longitude),
-                                      MapLatLng(nd_latitude, nd_longitude)),
-                                ];
+                                      endPointController.text)
+                                  .then((_) {
+                                setState(() {
+                                  line = [
+                                    LineModel(
+                                        MapLatLng(st_latitude, st_longitude),
+                                        MapLatLng(nd_latitude, nd_longitude)),
+                                  ];
+                                });
                               });
                             }
                           },
@@ -215,6 +223,83 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
             ]);
       }),
     );
+  }
+
+  Future<void> get_airport_info(String startCode, String endCode) async {
+
+
+    /*
+    var skyScannerUri_st = Uri.https(
+        'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+        '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/',
+        {'query': startCode});
+    var skyScannerResponse_st = await http.get(skyScannerUri_st, headers: {
+      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
+      "x-rapidapi-host":
+          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+      "useQueryString": 'true'
+    });
+
+    var skyScannerUri_nd = Uri.https(
+        'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
+        '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/',
+        {'query': endCode});
+    var skyScannerResponse_nd = await http.get(skyScannerUri_nd, headers: {
+      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
+      "x-rapidapi-host":
+          "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+      "useQueryString": 'true'
+    });
+
+    //print(skyScannerResponse.body);
+    var parsed_body_st = jsonDecode(skyScannerResponse_st.body);
+    var parsed_body_nd = jsonDecode(skyScannerResponse_nd.body);
+
+    var place_id_st = parsed_body_st['Places'][0]['PlaceId'];
+    var place_id_nd = parsed_body_nd['Places'][0]['PlaceId'];
+
+    //print(place_id);
+    var iata_code_st = place_id_st.substring(0, place_id_st.length - 4);
+    var iata_code_nd = place_id_nd.substring(0, place_id_nd.length - 4);
+*/
+
+    var airport_uri_st = Uri.https(
+        'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_st});
+    var airPortLocation_st = await http.get(airport_uri_st, headers: {
+      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
+      "x-rapidapi-host": "airport-info.p.rapidapi.com",
+      "useQueryString": 'true'
+    });
+
+    var airport_uri_nd = Uri.https(
+        'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_nd});
+    var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
+      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
+      "x-rapidapi-host": "airport-info.p.rapidapi.com",
+      "useQueryString": 'true'
+    });
+
+    print(airPortLocation_st.body);
+    print(airPortLocation_nd.body);
+
+    var parse_body_st = jsonDecode(airPortLocation_st.body);
+    var parse_body_nd = jsonDecode(airPortLocation_nd.body);
+
+    print(parse_body_st['latitude']);
+    print(parse_body_st['longitude']);
+
+    print(parse_body_nd['latitude']);
+    print(parse_body_nd['longitude']);
+
+    setState(() {
+      st_latitude = parse_body_st['latitude'];
+      st_longitude = parse_body_st['longitude'];
+      st_name = parse_body_st['name'];
+
+      nd_latitude = parse_body_nd['latitude'];
+      nd_longitude = parse_body_nd['longitude'];
+      nd_name = parse_body_nd['name'];
+    });
   }
 }
 
@@ -232,75 +317,6 @@ class LineModel {
   final MapLatLng to;
 }
 
-Future<void> get_airport_info(String startCode, String endCode) async {
-  var skyScannerUri_st = Uri.https(
-      'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-      '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/',
-      {'query': startCode});
-  var skyScannerResponse_st = await http.get(skyScannerUri_st, headers: {
-    "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-    "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-    "useQueryString": 'true'
-  });
-
-  var skyScannerUri_nd = Uri.https(
-      'skyscanner-skyscanner-flight-search-v1.p.rapidapi.com',
-      '/apiservices/autosuggest/v1.0/UK/GBP/en-GB/',
-      {'query': endCode});
-  var skyScannerResponse_nd = await http.get(skyScannerUri_nd, headers: {
-    "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-    "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
-    "useQueryString": 'true'
-  });
-
-  //print(skyScannerResponse.body);
-  var parsed_body_st = jsonDecode(skyScannerResponse_st.body);
-  var parsed_body_nd = jsonDecode(skyScannerResponse_nd.body);
-
-  var place_id_st = parsed_body_st['Places'][0]['PlaceId'];
-  var place_id_nd = parsed_body_nd['Places'][0]['PlaceId'];
-
-  //print(place_id);
-  var iata_code_st = place_id_st.substring(0, place_id_st.length - 4);
-  var iata_code_nd = place_id_nd.substring(0, place_id_nd.length - 4);
-
-  var airport_uri_st = Uri.https(
-      'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_st});
-  var airPortLocation_st = await http.get(airport_uri_st, headers: {
-    "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-    "x-rapidapi-host": "airport-info.p.rapidapi.com",
-    "useQueryString": 'true'
-  });
-
-  var airport_uri_nd = Uri.https(
-      'airport-info.p.rapidapi.com', '/airport', {'iata': iata_code_nd});
-  var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
-    "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-    "x-rapidapi-host": "airport-info.p.rapidapi.com",
-    "useQueryString": 'true'
-  });
-
-  print(airPortLocation_st.body);
-  print(airPortLocation_nd.body);
-
-  var parse_body_st = jsonDecode(airPortLocation_st.body);
-  var parse_body_nd = jsonDecode(airPortLocation_nd.body);
-
-  print(parse_body_st['latitude']);
-  print(parse_body_st['longitude']);
-
-  print(parse_body_nd['latitude']);
-  print(parse_body_nd['longitude']);
-
-  st_latitude = parse_body_st['latitude'];
-  st_longitude = parse_body_st['longitude'];
-  st_name = parse_body_st['name'];
-
-  nd_latitude = parse_body_nd['latitude'];
-  nd_longitude = parse_body_nd['longitude'];
-  nd_name = parse_body_nd['name'];
-}
-
 int calculateLngLat(MapLatLng PointA, MapLatLng PointB) {
   var p = 0.017453292519943295;
   var c = cos;
@@ -311,9 +327,4 @@ int calculateLngLat(MapLatLng PointA, MapLatLng PointB) {
           (1 - c((PointB.longitude - PointA.longitude) * p)) /
           2;
   return (12742 * asin(sqrt(a))).round();
-}
-
-double calculCarbon(double distance) {
-  double carbon;
-  carbon = distance * ((12 / 44) * 101);
 }
