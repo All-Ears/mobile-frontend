@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
-import 'carbon_calculate_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import 'dart:math';
 import 'app_drawer.dart';
+
 
 class ElephantPage extends StatefulWidget {
   ElephantPage({Key key, this.title}) : super(key: key);
@@ -30,17 +30,15 @@ class _ElephantPage extends State<ElephantPage> {
   void initState() {
     super.initState();
     countryInfo = fetchBackend();
-
     _zoomPanBehavior = MapZoomPanBehavior(
-      focalLatLng: MapLatLng(0.228021, 15.827659),
-      zoomLevel: 4,
+      focalLatLng: MapLatLng(0.10, 20),
+      zoomLevel: 2,
     );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    const mainPading = 14.0;
+    const mainPading = 15.0;
     return Scaffold(
         appBar: AppBar(
           title: Text('Elephant Map'),
@@ -48,192 +46,243 @@ class _ElephantPage extends State<ElephantPage> {
         drawer: AppDrawer(),
         body: LayoutBuilder(builder: (ctx, constraints) {
           return ListView(
+            //scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               padding: EdgeInsets.all(mainPading),
               children: [
                 Container(
-                  height: constraints.maxHeight - mainPading * 2,
+                  height: constraints.maxHeight - mainPading * 8,
                   child: SfMapsTheme(
                     data: SfMapsThemeData(
                       layerStrokeColor: Colors.white,
                       layerStrokeWidth: 2,
                       dataLabelTextStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+                          color: Colors.black,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Times'),
                     ),
                     child: FutureBuilder<List<CountryRecord>>(
                         future: countryInfo,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            models = getLatestDataPerCountry(snapshot.data);
-                            var maxPoaching = models
-                                    .map((x) => x.illegalCarcasses)
-                                    .reduce(max),
-                                forestElephantMapShapes = MapShapeSource.asset(
-                                  'assets/map/africa.geojson',
-                                  shapeDataField: 'name',
-                                  dataCount: models.length,
-                                  dataLabelMapper: (int index) =>
-                                      models[index].countryName,
-                                  primaryValueMapper: (int index) =>
-                                      models[index].countryName,
-                                  shapeColorValueMapper: (int index) =>
-                                      models[index].illegalCarcasses,
-                                  shapeColorMappers: [
-                                    MapColorMapper(
-                                      from: 0,
-                                      to: (maxPoaching * 0.25),
-                                      color: Colors.blue,
-                                      minOpacity: 0.2,
-                                      maxOpacity: 0.4,
-                                      text: '< 25%',
-                                    ),
-                                    MapColorMapper(
-                                      from: ((maxPoaching * 0.25) + 1),
-                                      to: (maxPoaching * 0.5),
-                                      color: Colors.green,
-                                      minOpacity: 0.2,
-                                      maxOpacity: 0.4,
-                                      text: '25% - 50%',
-                                    ),
-                                    MapColorMapper(
-                                      from: (maxPoaching * 0.5) + 1,
-                                      to: (maxPoaching * 0.75),
-                                      color: Colors.deepOrangeAccent,
-                                      minOpacity: 0.2,
-                                      maxOpacity: 0.8,
-                                      text: '50% - 75%',
-                                    ),
-                                    MapColorMapper(
-                                      from: (maxPoaching * 0.75) + 1,
-                                      to: maxPoaching.toDouble(),
-                                      color: Colors.red,
-                                      minOpacity: 0.2,
-                                      maxOpacity: 0.8,
-                                      text: '75% - 100%',
-                                    )
-                                  ],
-                                );
-                            return SfMaps(
-                              layers: [
-                                MapShapeLayer(
-                                  source: forestElephantMapShapes,
-                                  legend: MapLegend(MapElement.shape),
-                                  showDataLabels: true,
-                                  dataLabelSettings: MapDataLabelSettings(
-                                    overflowMode: MapLabelOverflow.ellipsis,
-                                  ),
-                                  selectionSettings: MapSelectionSettings(
-                                    strokeColor: Colors.white,
-                                    strokeWidth: 2.0,
-                                  ),
-                                  zoomPanBehavior: _zoomPanBehavior,
-                                  onSelectionChanged: (index) {
-                                    setState(() {
-                                      selectedIndex = index;
-                                    });
-                                  },
-                                  selectedIndex: selectedIndex,
-                                  shapeTooltipBuilder:
-                                      (BuildContext ctx, int index) {
-                                    return Container(
-                                      width: 300,
-                                      height: 150,
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Total elephant deaths: ${models[index].carcasses}",
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Elephants killed by poaching: ${models[index].illegalCarcasses}",
-                                              ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                  "Percentage of elephants poached ${(100 * (models[index].illegalCarcasses / models[index].carcasses)).toStringAsFixed(2)}%"),
-                                            ],
-                                          )
-                                        ],
+                        builder: (ctx, snapshot) {
+                          switch (snapshot.connectionState) {
+                            // Uncompleted State
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
+                              break;
+                            default:
+                              models = getLatestDataPerCountry(snapshot.data);
+                              final maxPoaching = models
+                                      .map((x) => x.illegalCarcasses)
+                                      .reduce(max),
+                                  forestElephantMapShapes =
+                                      MapShapeSource.asset(
+                                    'assets/map/africa.geojson',
+                                    shapeDataField: 'name',
+                                    dataCount: models.length,
+                                    dataLabelMapper: (int index) =>
+                                        models[index].countryName,
+                                    primaryValueMapper: (int index) =>
+                                        models[index].countryName,
+                                    shapeColorValueMapper: (int index) =>
+                                        models[index].illegalCarcasses,
+                                    shapeColorMappers: [
+                                      MapColorMapper(
+                                        from: 0,
+                                        to: maxPoaching * 0.33,
+                                        color: Colors.green,
+                                        minOpacity: 0.2,
+                                        maxOpacity: 0.8,
+                                        text: '< 33%',
                                       ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text("blablabla");
-                          } else {
-                            return Text('loading Data');
+                                      MapColorMapper(
+                                        from: (maxPoaching * 0.33) + 1,
+                                        to: (maxPoaching * 0.66),
+                                        color: Colors.orange,
+                                        minOpacity: 0.2,
+                                        maxOpacity: 0.8,
+                                        text: '34% - 66%',
+                                      ),
+                                      MapColorMapper(
+                                        from: (maxPoaching * 0.66) + 1,
+                                        to: maxPoaching.toDouble(),
+                                        color: Colors.red,
+                                        minOpacity: 0.2,
+                                        maxOpacity: 0.8,
+                                        text: '66% - 100%',
+                                      ),
+                                    ],
+                                  );
+                              if (snapshot.hasData) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: SfMaps(
+                                    layers: [
+                                      MapShapeLayer(
+                                          source: forestElephantMapShapes,
+                                          legend: MapLegend(MapElement.shape),
+                                          showDataLabels: true,
+                                          dataLabelSettings:
+                                              MapDataLabelSettings(
+                                            overflowMode:
+                                                MapLabelOverflow.ellipsis,
+                                          ),
+                                          selectionSettings:
+                                              MapSelectionSettings(
+                                            strokeColor: Colors.white,
+                                            strokeWidth: 2.0,
+                                          ),
+                                          zoomPanBehavior: _zoomPanBehavior,
+                                          onSelectionChanged: (index) {
+                                            setState(() {
+                                              selectedIndex = index;
+                                            });
+                                          },
+                                          selectedIndex: selectedIndex,
+                                          color: Colors.blueGrey,
+                                          shapeTooltipBuilder: (ctx, snapshot) {
+                                            if (selectedIndex == 0) {
+                                              return Container(
+                                                child: Icon(Icons
+                                                    .airplanemode_inactive),
+                                              );
+                                            } else {
+                                              return Container(
+                                                child: Icon(
+                                                    Icons.airplanemode_active),
+                                              );
+                                            }
+                                          }),
+                                    ],
+                                  ),
+                                );
+                              } else if (snapshot.hasError) {
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16),
+                                  child: Text('Loading error...'),
+                                );
+                              } else {
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16),
+                                  child: Text('Awaiting result...'),
+                                );
+                              }
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                color: Colors.green,
+                                child: Text("This would be a mistake"),
+                              );
                           }
                         }),
                   ),
                 ),
                 if (selectedIndex >= 0)
                   Container(
-                    height: constraints.maxHeight - mainPading * 2,
-
+                    height: 145,
+                    width: 400,
                     child: FutureBuilder(
                         future: countryInfo,
-                        builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SfCartesianChart(
-                            //Chart Title
-                            title: ChartTitle(
-                                text:
-                                    "${models[selectedIndex].countryName}'s Elephant poaching data"),
-                            // enable legend
-                            // legend: Legend(isVisible: true),
-                            // Enable tooltip
-                            tooltipBehavior: TooltipBehavior(enable: true),
-                            primaryYAxis: NumericAxis(),
-                            primaryXAxis: CategoryAxis(),
-                            legend: Legend(
-                                isVisible: true,
-                                title: LegendTitle(
-                                    text: "Year",
-                                    textStyle: ChartTextStyle(
-                                        color: Colors.black,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w900))),
-                            series: <ChartSeries>[
-                              LineSeries<CountryRecord, int>(
-                                dataSource: snapshot.data.where((x) => x.countryName == models[selectedIndex].countryName).toList(),
-                                xValueMapper: (CountryRecord x, _) => x.year,
-                                yValueMapper: (CountryRecord y, _) =>
-                                    y.illegalCarcasses,
-                              )
-                            ]);
-                      } else if (snapshot.hasError) {
-                        return Text("blablabla");
-                      } else {
-                        return Text('loading Data');
-                      }
-                    }),
+                        builder: (ctx, snapshot) {
+                          var percentage;
+                          if(models[selectedIndex].carcasses == 0){
+                            percentage = 0;
+                          }else{
+                           percentage = models[selectedIndex].illegalCarcasses/models[selectedIndex].carcasses;
+                          }
+                          if (snapshot.hasData) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Center(
+                                child:
+                                    Table(border: TableBorder.all(), children: [
+                                  TableRow(children: [
+                                    Text('Carcasses',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text('illegalCarcasses',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text('year',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text('Percentage',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                  ]),
+                                  TableRow(children: [
+                                    Text('${models[selectedIndex].carcasses}'),
+                                    Text(
+                                        '${models[selectedIndex].illegalCarcasses}'),
+                                    Text('${models[selectedIndex].year}'),
+                                    Text(
+                                        '${(percentage * 100).toStringAsFixed(2)}%'),
+                                  ]),
+                                ]),
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            print(snapshot.error);
+                            return Text(
+                                "Error loading elephant mortality data.");
+                          } else {
+                            return Text('awaiting result...');
+                          }
+                        }),
+                  ),
+                if (selectedIndex >= 0)
+                  Container(
+                    height: constraints.maxHeight - mainPading * 3,
+                    child: FutureBuilder(
+                        future: countryInfo,
+                        builder: (ctx, snapshot) {
+                          if (snapshot.hasData) {
+                            return SfCartesianChart(
+                                //Chart Title
+                                title: ChartTitle(
+                                    text:
+                                        "${models[selectedIndex].countryName}'s Recent Illegal Carcasses Data"),
+                                // enable legend
+                                // legend: Legend(isVisible: true),
+                                // Enable tooltip
+                                tooltipBehavior: TooltipBehavior(enable: true),
+                                primaryYAxis: NumericAxis(),
+                                primaryXAxis: CategoryAxis(),
+                                legend: Legend(
+                                    isVisible: true,
+                                    title: LegendTitle(
+                                        text: "Year",
+                                        textStyle: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w900))),
+                                series: <ChartSeries>[
+                                  LineSeries<CountryRecord, int>(
+                                    dataSource: snapshot.data
+                                        .where((x) =>
+                                            x.countryName ==
+                                            models[selectedIndex].countryName)
+                                        .toList(),
+                                    name: 'Elephant Poatching Death Per Year',
+                                    xValueMapper: (CountryRecord x, _) =>
+                                        x.year,
+                                    yValueMapper: (CountryRecord y, _) =>
+                                        y.illegalCarcasses,
+                                  )
+                                ]);
+                          } else if (snapshot.hasError) {
+                            return Text("loading error...");
+                          } else {
+                            return Text('awaiting result...');
+                          }
+                        }),
                   )
               ]);
         }));
   }
-}
-
-class MapModel {
-  final String country;
-  final int totalDeaths;
-  final int poachingDeaths;
-
-  const MapModel(this.country, this.totalDeaths, this.poachingDeaths);
 }
 
 class CountryRecord {
@@ -264,7 +313,8 @@ class CountryRecord {
 Future<List<CountryRecord>> fetchBackend() async {
   final parse_countryrecord =
       await http.get('http://143.110.222.9/api/countryrecords');
-  if (parse_countryrecord.statusCode == 200) {
+  if (parse_countryrecord.statusCode == 200 &&
+      parse_countryrecord.body != null) {
     var parse_body = jsonDecode(parse_countryrecord.body);
     return List<CountryRecord>.from(
         parse_body.map((x) => CountryRecord.fromJson(x)));
