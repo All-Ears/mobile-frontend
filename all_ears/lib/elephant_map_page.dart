@@ -38,7 +38,7 @@ class _ElephantPage extends State<ElephantPage> {
 
   @override
   Widget build(BuildContext context) {
-    const mainPading = 15.0;
+    const mainPading = 20.0;
     return Scaffold(
         appBar: AppBar(
           title: Text('Elephant Map'),
@@ -51,7 +51,7 @@ class _ElephantPage extends State<ElephantPage> {
               padding: EdgeInsets.all(mainPading),
               children: [
                 Container(
-                  height: constraints.maxHeight - mainPading * 8,
+                  height: constraints.maxHeight - mainPading * 16,
                   child: SfMapsTheme(
                     data: SfMapsThemeData(
                       layerStrokeColor: Colors.white,
@@ -116,7 +116,7 @@ class _ElephantPage extends State<ElephantPage> {
                                   );
                               if (snapshot.hasData) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: SfMaps(
                                     layers: [
                                       MapShapeLayer(
@@ -159,12 +159,12 @@ class _ElephantPage extends State<ElephantPage> {
                                 );
                               } else if (snapshot.hasError) {
                                 Padding(
-                                  padding: EdgeInsets.only(top: 16),
+                                  padding: EdgeInsets.only(top: 7),
                                   child: Text('Loading error...'),
                                 );
                               } else {
                                 Padding(
-                                  padding: EdgeInsets.only(top: 16),
+                                  padding: EdgeInsets.only(top: 7),
                                   child: Text('Awaiting result...'),
                                 );
                               }
@@ -192,7 +192,7 @@ class _ElephantPage extends State<ElephantPage> {
                           }
                           if (snapshot.hasData) {
                             return Padding(
-                              padding: const EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(0),
                               child: Center(
                                 child:
                                     Table(border: TableBorder.all(), children: [
@@ -236,7 +236,7 @@ class _ElephantPage extends State<ElephantPage> {
                   ),
                 if (selectedIndex >= 0)
                   Container(
-                    height: constraints.maxHeight - mainPading * 3,
+                    height: constraints.maxHeight * 0.68,
                     child: FutureBuilder(
                         future: countryInfo,
                         builder: (ctx, snapshot) {

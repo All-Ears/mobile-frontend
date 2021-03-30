@@ -267,8 +267,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
                         Container(
                           decoration: BoxDecoration(color: Colors.tealAccent[100]),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 3.0, horizontal: 15.0),
-                            child: Text('Airports A & B', textAlign: TextAlign.center),
+                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                            child: Text('Airports', textAlign: TextAlign.center),
                           ),
                         ),
                         Container(
@@ -317,7 +317,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Text(
-                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.29).round()} kg',
+                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).round()} kg',
                                 textAlign: TextAlign.center),
                           ),
                         ),
@@ -325,12 +325,12 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Text(
-                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.29).round() / 1000} usd',
+                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491 *.1).ceil()} USD',
                                 textAlign: TextAlign.center),
                           ),
                         ),
-                      ],
-                    ),
+
+                    ]),
                   ],
                 ),
               ),
@@ -340,6 +340,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
       }),
     );
   }
+
 
   Future<List<AirCode>> getData(filter) async {
     var response = await DefaultAssetBundle.of(context).loadString("assets/map/airports.json");

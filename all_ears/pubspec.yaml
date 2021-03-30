@@ -58,8 +58,7 @@ flutter:
      - assets/images/Wildlife-Conservation-Society-logo.png
      - assets/images/Tusk-logo.png
      - assets/images/espa-logo.png
-     - assets/map/africa.geojson
-     - assets/images/highreslogo.png
+     - assets/map/africa-map.json
      - assets/map/airports.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
