@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'dart:math';
@@ -213,31 +212,33 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
                               get_airport_info(startPointController.text, endPointController.text)
                                   .then((_) {
                                 setState(() {
-                                  _zoomPanBehavior.focalLatLng = MapLatLng(
-                                      (st_latitude + nd_latitude) / 2,
-                                      (st_longitude + nd_longitude) / 2);
-                                  /* // Zoom values based on distance
-                                  if (calculateLngLat(line[0].from, line[0].to) >= 10000) {
-                                    _zoomPanBehavior.zoomLevel = 1;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 9999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 8000) {
-                                    _zoomPanBehavior.zoomLevel = 2;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 7999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 5000) {
-                                    _zoomPanBehavior.zoomLevel = 2.5;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 4999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 3000) {
-                                    _zoomPanBehavior.zoomLevel = 3;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 2999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 1000) {
-                                    _zoomPanBehavior.zoomLevel = 4;
-                                  } else
-                                    _zoomPanBehavior.zoomLevel = 5;
-                                  */
+                                  /// Form Line
                                   line = [
                                     LineModel(MapLatLng(st_latitude, st_longitude),
                                         MapLatLng(nd_latitude, nd_longitude)),
                                   ];
+
+                                  /// Pan camera based on midpoint
+                                  _zoomPanBehavior.focalLatLng = MapLatLng(
+                                      (st_latitude + nd_latitude) / 2,
+                                      (st_longitude + nd_longitude) / 2);
+
+                                  /// Zoom values based on distance
+                                  var distance = calculateLngLat(line[0].from, line[0].to);
+                                  if (distance >= 10000) {
+                                    _zoomPanBehavior.zoomLevel = 1;
+                                  } else if (distance <= 9999 && distance >= 8000) {
+                                    _zoomPanBehavior.zoomLevel = 2;
+                                  } else if (distance <= 7999 && distance >= 5000) {
+                                    _zoomPanBehavior.zoomLevel = 2.5;
+                                  } else if (distance <= 4999 && distance >= 3000) {
+                                    _zoomPanBehavior.zoomLevel = 3;
+                                  } else if (distance <= 2999 && distance >= 1000) {
+                                    _zoomPanBehavior.zoomLevel = 4;
+                                  } else if (distance <= 999 && distance >= 500)
+                                    _zoomPanBehavior.zoomLevel = 5;
+                                  else
+                                    _zoomPanBehavior.zoomLevel = 8;
                                 });
                               });
                             }
@@ -448,7 +449,10 @@ class AirCode {
   bool filterByIata(String filter) {
     return this.iataCode.toString().startsWith(filter) ||
         this.location.toString().startsWith(filter) ||
-        this.city.toString().startsWith(filter);
+        this.city.toString().startsWith(filter) ||
+        this.iataCode.toString().toLowerCase().startsWith(filter) ||
+        this.location.toString().toLowerCase().startsWith(filter) ||
+        this.city.toString().toLowerCase().startsWith(filter);
   }
 
   ///custom comparing function to check if two users are equal
@@ -460,11 +464,8 @@ class AirCode {
   String toString() => userAsString();
 }
 
-class toUpperCase extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    return newValue.copyWith(text: newValue.text.toUpperCase());
-  }
+bool equalsIgnoreCase(String string1, String string2) {
+  return string1?.toLowerCase() == string2?.toLowerCase();
 }
 
 class LineModel {
