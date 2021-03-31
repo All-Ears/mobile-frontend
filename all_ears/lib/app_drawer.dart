@@ -37,12 +37,12 @@ class AppDrawer extends StatelessWidget{
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                        padding: const EdgeInsets.only(left: 1.0, right: 1.0),
                         child: Text(
-                          'AllEars',
+                          'Elephant Footprint',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: 14,
                           ),
                         ),
                       ),
