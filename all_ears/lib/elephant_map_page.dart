@@ -314,7 +314,7 @@ Future<List<CountryRecord>> fetchBackend() async {
   http.Response parse_countryrecord;
   try {
     parse_countryrecord =
-        await http.get('http://143.110.222.9/api/countryrecords');
+        await http.get('https://elephantfootprint.org/api/countryrecords');
   } catch (StateError) {
     rethrow;
   }
