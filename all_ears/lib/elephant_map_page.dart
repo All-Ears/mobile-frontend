@@ -9,7 +9,6 @@ import 'dart:async';
 import 'dart:math';
 import 'app_drawer.dart';
 
-
 class ElephantPage extends StatefulWidget {
   ElephantPage({Key key, this.title}) : super(key: key);
 
@@ -46,7 +45,7 @@ class _ElephantPage extends State<ElephantPage> {
         drawer: AppDrawer(),
         body: LayoutBuilder(builder: (ctx, constraints) {
           return ListView(
-            //scrollDirection: Axis.horizontal,
+              //scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               padding: EdgeInsets.all(mainPading),
               children: [
@@ -75,45 +74,44 @@ class _ElephantPage extends State<ElephantPage> {
                               models = getLatestDataPerCountry(snapshot.data);
                               final maxPoaching = models
                                   .map((x) => x.illegalCarcasses)
-                                  .reduce(max),
-                                  forestElephantMapShapes =
-                                  MapShapeSource.asset(
-                                    'assets/map/africa-map.json',
-                                    shapeDataField: 'name',
-                                    dataCount: models.length,
-                                    dataLabelMapper: (int index) =>
+                                  .reduce(max);
+                              forestElephantMapShapes = MapShapeSource.asset(
+                                'assets/map/africa-map.json',
+                                shapeDataField: 'code',
+                                dataCount: models.length,
+                                dataLabelMapper: (int index) =>
                                     models[index].countryName,
-                                    primaryValueMapper: (int index) =>
-                                    models[index].countryName,
-                                    shapeColorValueMapper: (int index) =>
+                                primaryValueMapper: (int index) =>
+                                    models[index].countryCode,
+                                shapeColorValueMapper: (int index) =>
                                     models[index].illegalCarcasses,
-                                    shapeColorMappers: [
-                                      MapColorMapper(
-                                        from: 0,
-                                        to: maxPoaching * 0.33,
-                                        color: Colors.green,
-                                        minOpacity: 0.2,
-                                        maxOpacity: 0.8,
-                                        text: '< 33%',
-                                      ),
-                                      MapColorMapper(
-                                        from: (maxPoaching * 0.33) + 1,
-                                        to: (maxPoaching * 0.66),
-                                        color: Colors.orange,
-                                        minOpacity: 0.2,
-                                        maxOpacity: 0.8,
-                                        text: '34% - 66%',
-                                      ),
-                                      MapColorMapper(
-                                        from: (maxPoaching * 0.66) + 1,
-                                        to: maxPoaching.toDouble(),
-                                        color: Colors.red,
-                                        minOpacity: 0.2,
-                                        maxOpacity: 0.8,
-                                        text: '66% - 100%',
-                                      ),
-                                    ],
-                                  );
+                                shapeColorMappers: [
+                                  MapColorMapper(
+                                    from: 0,
+                                    to: maxPoaching * 0.33,
+                                    color: Colors.green,
+                                    minOpacity: 0.2,
+                                    maxOpacity: 0.8,
+                                    text: '< 33%',
+                                  ),
+                                  MapColorMapper(
+                                    from: (maxPoaching * 0.33) + 1,
+                                    to: (maxPoaching * 0.66),
+                                    color: Colors.orange,
+                                    minOpacity: 0.2,
+                                    maxOpacity: 0.8,
+                                    text: '34% - 66%',
+                                  ),
+                                  MapColorMapper(
+                                    from: (maxPoaching * 0.66) + 1,
+                                    to: maxPoaching.toDouble(),
+                                    color: Colors.red,
+                                    minOpacity: 0.2,
+                                    maxOpacity: 0.8,
+                                    text: '66% - 100%',
+                                  ),
+                                ],
+                              );
                               if (snapshot.hasData) {
                                 return Padding(
                                   padding: const EdgeInsets.all(5.0),
@@ -185,10 +183,12 @@ class _ElephantPage extends State<ElephantPage> {
                         future: countryInfo,
                         builder: (ctx, snapshot) {
                           var percentage;
-                          if(models[selectedIndex].carcasses == 0){
+                          if (models[selectedIndex].carcasses == 0) {
                             percentage = 0;
-                          }else{
-                            percentage = models[selectedIndex].illegalCarcasses/models[selectedIndex].carcasses;
+                          } else {
+                            percentage =
+                                models[selectedIndex].illegalCarcasses /
+                                    models[selectedIndex].carcasses;
                           }
                           if (snapshot.hasData) {
                             return Padding(
@@ -311,15 +311,20 @@ class CountryRecord {
 }
 
 Future<List<CountryRecord>> fetchBackend() async {
-  final parse_countryrecord =
-  await http.get('https://elephantfootprint.org/api/countryrecords');
+  http.Response parse_countryrecord;
+  try {
+    parse_countryrecord =
+        await http.get('https://elephantfootprint.org/api/countryrecords');
+  } catch (StateError) {
+    rethrow;
+  }
   if (parse_countryrecord.statusCode == 200 &&
       parse_countryrecord.body != null) {
     var parse_body = jsonDecode(parse_countryrecord.body);
     return List<CountryRecord>.from(
         parse_body.map((x) => CountryRecord.fromJson(x)));
   } else {
-    throw Exception('Failed to load contryrecords');
+    throw ('Failed to load countryrecords');
   }
 }
 

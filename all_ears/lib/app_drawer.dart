@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-
-class AppDrawer extends StatelessWidget{
+class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,57 +44,69 @@ class AppDrawer extends StatelessWidget{
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.text_snippet_outlined,
-                    color: Colors.tealAccent[400]),
-                title: Text('About Us'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/second');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.calculate_outlined, color: Colors.red),
-                title: Text('Carbon Calculator'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/third');
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.monetization_on_outlined,
-                    color: Colors.amber[600]),
-                title: Text('Donate'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/fourth');
-                },
-              ),
-              Container(
-                  child: ListTile(
-                    leading: Icon(Icons.map_outlined, color: Colors.green),
-                    title: Text('Elephant Map'),
-                    onTap: () {
-                      Navigator.pushNamed(context, '/fifth');
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                    child: Text(
+                      'AllEars',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
                   ),
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.black12)))),
-              ListTile(
-                title: Text('FAQ'),
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.text_snippet_outlined,
+                color: Colors.tealAccent[400]),
+            title: Text('About Us'),
+            onTap: () {
+              Navigator.pushNamed(context, '/second');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.calculate_outlined, color: Colors.red),
+            title: Text('Carbon Calculator'),
+            onTap: () {
+              Navigator.pushNamed(context, '/third');
+            },
+          ),
+          ListTile(
+            leading:
+                Icon(Icons.monetization_on_outlined, color: Colors.amber[600]),
+            title: Text('Donate'),
+            onTap: () {
+              Navigator.pushNamed(context, '/fourth');
+            },
+          ),
+          Container(
+              child: ListTile(
+                leading: Icon(Icons.map_outlined, color: Colors.green),
+                title: Text('Elephant Map'),
                 onTap: () {
-                  Navigator.pushNamed(context, '/sixth');
+                  Navigator.pushNamed(context, '/fifth');
                 },
               ),
-              ListTile(
-                title: Text('Write a Review'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/');
-                },
-              ),
-            ],
-          )),
+              decoration: BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.black12)))),
+          ListTile(
+            title: Text('FAQ'),
+            onTap: () {
+              Navigator.pushNamed(context, '/sixth');
+            },
+          ),
+          ListTile(
+            title: Text('Write a Review'),
+            onTap: () {
+              Navigator.pushNamed(context, '/');
+            },
+          ),
+        ],
+      )),
     );
   }
 }
