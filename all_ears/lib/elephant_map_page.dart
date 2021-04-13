@@ -38,7 +38,7 @@ class _ElephantPage extends State<ElephantPage> {
 
   @override
   Widget build(BuildContext context) {
-    const mainPading = 20.0;
+    const mainPading = 15.0;
     return Scaffold(
         appBar: AppBar(
           title: Text('Elephant Map'),
@@ -51,7 +51,7 @@ class _ElephantPage extends State<ElephantPage> {
               padding: EdgeInsets.all(mainPading),
               children: [
                 Container(
-                  height: constraints.maxHeight - mainPading * 16,
+                  height: constraints.maxHeight - mainPading * 8,
                   child: SfMapsTheme(
                     data: SfMapsThemeData(
                       layerStrokeColor: Colors.white,
@@ -66,7 +66,7 @@ class _ElephantPage extends State<ElephantPage> {
                         future: countryInfo,
                         builder: (ctx, snapshot) {
                           switch (snapshot.connectionState) {
-                            // Uncompleted State
+                          // Uncompleted State
                             case ConnectionState.none:
                             case ConnectionState.waiting:
                               return Center(child: CircularProgressIndicator());
@@ -74,19 +74,19 @@ class _ElephantPage extends State<ElephantPage> {
                             default:
                               models = getLatestDataPerCountry(snapshot.data);
                               final maxPoaching = models
-                                      .map((x) => x.illegalCarcasses)
-                                      .reduce(max),
+                                  .map((x) => x.illegalCarcasses)
+                                  .reduce(max),
                                   forestElephantMapShapes =
-                                      MapShapeSource.asset(
-                                    'assets/map/africa.geojson',
+                                  MapShapeSource.asset(
+                                    'assets/map/africa-map.json',
                                     shapeDataField: 'name',
                                     dataCount: models.length,
                                     dataLabelMapper: (int index) =>
-                                        models[index].countryName,
+                                    models[index].countryName,
                                     primaryValueMapper: (int index) =>
-                                        models[index].countryName,
+                                    models[index].countryName,
                                     shapeColorValueMapper: (int index) =>
-                                        models[index].illegalCarcasses,
+                                    models[index].illegalCarcasses,
                                     shapeColorMappers: [
                                       MapColorMapper(
                                         from: 0,
@@ -116,7 +116,7 @@ class _ElephantPage extends State<ElephantPage> {
                                   );
                               if (snapshot.hasData) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(2.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: SfMaps(
                                     layers: [
                                       MapShapeLayer(
@@ -124,12 +124,12 @@ class _ElephantPage extends State<ElephantPage> {
                                           legend: MapLegend(MapElement.shape),
                                           showDataLabels: true,
                                           dataLabelSettings:
-                                              MapDataLabelSettings(
+                                          MapDataLabelSettings(
                                             overflowMode:
-                                                MapLabelOverflow.ellipsis,
+                                            MapLabelOverflow.ellipsis,
                                           ),
                                           selectionSettings:
-                                              MapSelectionSettings(
+                                          MapSelectionSettings(
                                             strokeColor: Colors.white,
                                             strokeWidth: 2.0,
                                           ),
@@ -159,12 +159,12 @@ class _ElephantPage extends State<ElephantPage> {
                                 );
                               } else if (snapshot.hasError) {
                                 Padding(
-                                  padding: EdgeInsets.only(top: 7),
+                                  padding: EdgeInsets.only(top: 16),
                                   child: Text('Loading error...'),
                                 );
                               } else {
                                 Padding(
-                                  padding: EdgeInsets.only(top: 7),
+                                  padding: EdgeInsets.only(top: 16),
                                   child: Text('Awaiting result...'),
                                 );
                               }
@@ -188,14 +188,14 @@ class _ElephantPage extends State<ElephantPage> {
                           if(models[selectedIndex].carcasses == 0){
                             percentage = 0;
                           }else{
-                           percentage = models[selectedIndex].illegalCarcasses/models[selectedIndex].carcasses;
+                            percentage = models[selectedIndex].illegalCarcasses/models[selectedIndex].carcasses;
                           }
                           if (snapshot.hasData) {
                             return Padding(
-                              padding: const EdgeInsets.all(0),
+                              padding: const EdgeInsets.all(10),
                               child: Center(
                                 child:
-                                    Table(border: TableBorder.all(), children: [
+                                Table(border: TableBorder.all(), children: [
                                   TableRow(children: [
                                     Text('Carcasses',
                                         textAlign: TextAlign.center,
@@ -236,16 +236,16 @@ class _ElephantPage extends State<ElephantPage> {
                   ),
                 if (selectedIndex >= 0)
                   Container(
-                    height: constraints.maxHeight * 0.68,
+                    height: constraints.maxHeight - mainPading * 3,
                     child: FutureBuilder(
                         future: countryInfo,
                         builder: (ctx, snapshot) {
                           if (snapshot.hasData) {
                             return SfCartesianChart(
-                                //Chart Title
+                              //Chart Title
                                 title: ChartTitle(
                                     text:
-                                        "${models[selectedIndex].countryName}'s Recent Illegal Carcasses Data"),
+                                    "${models[selectedIndex].countryName}'s Recent Illegal Carcasses Data"),
                                 // enable legend
                                 // legend: Legend(isVisible: true),
                                 // Enable tooltip
@@ -263,14 +263,14 @@ class _ElephantPage extends State<ElephantPage> {
                                   LineSeries<CountryRecord, int>(
                                     dataSource: snapshot.data
                                         .where((x) =>
-                                            x.countryName ==
-                                            models[selectedIndex].countryName)
+                                    x.countryName ==
+                                        models[selectedIndex].countryName)
                                         .toList(),
                                     name: 'Elephant Poatching Death Per Year',
                                     xValueMapper: (CountryRecord x, _) =>
-                                        x.year,
+                                    x.year,
                                     yValueMapper: (CountryRecord y, _) =>
-                                        y.illegalCarcasses,
+                                    y.illegalCarcasses,
                                   )
                                 ]);
                           } else if (snapshot.hasError) {
@@ -294,10 +294,10 @@ class CountryRecord {
 
   CountryRecord(
       {this.countryName,
-      this.countryCode,
-      this.year,
-      this.carcasses,
-      this.illegalCarcasses});
+        this.countryCode,
+        this.year,
+        this.carcasses,
+        this.illegalCarcasses});
 
   factory CountryRecord.fromJson(Map<String, dynamic> json) {
     return CountryRecord(
@@ -312,7 +312,7 @@ class CountryRecord {
 
 Future<List<CountryRecord>> fetchBackend() async {
   final parse_countryrecord =
-      await http.get('http://143.110.222.9/api/countryrecords');
+  await http.get('https://elephantfootprint.org/api/countryrecords');
   if (parse_countryrecord.statusCode == 200 &&
       parse_countryrecord.body != null) {
     var parse_body = jsonDecode(parse_countryrecord.body);

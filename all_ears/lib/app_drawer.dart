@@ -31,7 +31,7 @@ class AppDrawer extends StatelessWidget{
                               width: 55,
                               height: 55,
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/images/highreslogo.png'),
+                              image: AssetImage('assets/images/applogo-bg-square.png'),
                             ),
                           ),
                         ),
