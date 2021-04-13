@@ -8,28 +8,40 @@ class AppDrawer extends StatelessWidget {
       width: 215.0,
       child: Drawer(
           child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          Container(
-            height: 110.0,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
-                    child: ClipOval(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/');
-                        },
-                        child: Image(
-                          width: 55,
-                          height: 55,
-                          fit: BoxFit.cover,
-                          image: AssetImage('assets/images/highreslogo.png'),
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                height: 110.0,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0, bottom: 0.0),
+                        child: ClipOval(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/');
+                            },
+                            child: Image(
+                              width: 55,
+                              height: 55,
+                              fit: BoxFit.cover,
+                              image: AssetImage('assets/images/applogo-bg-square.png'),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                        child: Text(
+                          'AllEars',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
