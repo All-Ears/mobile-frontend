@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-
 class AppDrawer extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class AppDrawer extends StatelessWidget{
                               width: 55,
                               height: 55,
                               fit: BoxFit.cover,
-                              image: AssetImage('assets/images/applogo-bg-square.png'),
+                              image: AssetImage('assets/images/highreslogo.png'),
                             ),
                           ),
                         ),

@@ -4,6 +4,7 @@ import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'app_drawer.dart';
@@ -114,14 +115,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                       layers: [
                         MapTileLayer(
                           urlTemplate:
-                              "https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=" +
-                                  MAPBOX_TOKEN,
+                          "https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=" +
+                              MAPBOX_TOKEN,
                           zoomPanBehavior: _zoomPanBehavior,
                           sublayers: [
                             MapArcLayer(
                               arcs: List<MapArc>.generate(
                                 line.length,
-                                (int index) {
+                                    (int index) {
                                   return MapArc(
                                     from: line[index].from,
                                     to: line[index].to,
@@ -154,7 +155,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                           child: DropdownSearch<AirCode>(
                               searchBoxController: startPointController,
                               validator: (v) =>
-                                  v == null ? "Required field" : null,
+                              v == null ? "Required field" : null,
                               showSearchBox: true,
                               showClearButton: true,
                               mode: Mode.DIALOG,
@@ -194,7 +195,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                           child: DropdownSearch<AirCode>(
                               searchBoxController: endPointController,
                               validator: (v) =>
-                                  v == null ? "Required field" : null,
+                              v == null ? "Required field" : null,
                               showSearchBox: true,
                               showClearButton: true,
                               hint: "Select a location",
@@ -219,7 +220,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                 //print(endPointController.text);
                                 if ((_formKey.currentState.validate())) {
                                   get_airport_info(startPointController.text,
-                                          endPointController.text)
+                                      endPointController.text)
                                       .then((_) {
                                     setState(() {
                                       /// Form Line
@@ -280,14 +281,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     opacity: _opacity,
                     child: Table(
                       defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
+                      TableCellVerticalAlignment.middle,
                       border: TableBorder.all(),
                       children: <TableRow>[
                         TableRow(
                           children: <Widget>[
                             Container(
                               decoration:
-                                  BoxDecoration(color: Colors.tealAccent[100]),
+                              BoxDecoration(color: Colors.tealAccent[100]),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: 10.0, horizontal: 15.0),
@@ -297,17 +298,17 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                             ),
                             Container(
                               decoration:
-                                  BoxDecoration(color: Colors.tealAccent),
+                              BoxDecoration(color: Colors.tealAccent),
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                const EdgeInsets.symmetric(vertical: 10.0),
                                 child: Text('Distance',
                                     textAlign: TextAlign.center),
                               ),
                             ),
                             Container(
                               decoration:
-                                  BoxDecoration(color: Colors.tealAccent[100]),
+                              BoxDecoration(color: Colors.tealAccent[100]),
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
                                 child: Text('Total Carbon Emitted',
@@ -316,7 +317,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                             ),
                             Container(
                               decoration:
-                                  BoxDecoration(color: Colors.tealAccent),
+                              BoxDecoration(color: Colors.tealAccent),
                               alignment: Alignment.center,
                               child: Padding(
                                 padding: const EdgeInsets.all(3.0),
@@ -348,7 +349,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                             child: Padding(
                               padding: const EdgeInsets.all(3.0),
                               child: Text(
-                                  '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).round()} kg',
+                                  '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).toStringAsFixed(2)} kg',
                                   textAlign: TextAlign.center),
                             ),
                           ),
@@ -356,7 +357,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                             child: Padding(
                               padding: const EdgeInsets.all(3.0),
                               child: Text(
-                                  '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491 * .1).ceil()} USD',
+                                  '\$${(((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491)) * 0.41).ceil()}', // leave /1000 and no reason
                                   textAlign: TextAlign.center),
                             ),
                           ),
@@ -364,12 +365,31 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                       ],
                     ),
                   ),
-                )
+                ),
+                Container(
+                    child: Text(
+                        "In lieu of the above donation amount you could donate \$25 to support a ranger for a day.")),
+                Container(
+                    child: Text(
+                        "An African forest elephant would cause 400.00 kg of carbon to be sequestered per year by keeping the forests healthy.")),
+                Container(
+                    child: Text(
+                        ' An African forest elephant would need to live for ${((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 49.1).round() / 400000).toStringAsFixed(2)} years to sequester that amount of carbon.')),
+                Container(
+                    child: Text(
+                        "*Due to mapping limitations, the line drawn on the map may not be the actual flight path of the plane. Regardless, the distance calculated is the shortest distance between the two airports.")),
+                Container(
+                  child: new InkWell(
+                      child: new Text("**Our carbon emmision values use methods from the UK National Energy Foundation's Carbon Calculator"), //text style stuff for "Carbon Calculator"
+                      onTap: () => launch('http://www.carbon-calculator.org.uk/')
+                  ),
+                ),
               ]),
         );
       }),
     );
   }
+
 
   Future<List<AirCode>> getData(filter) async {
     var response = await DefaultAssetBundle.of(context)
@@ -411,7 +431,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     print(iata_nd);
 
     var airport_uri_st =
-        Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_st});
+    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_st});
     var airPortLocation_st = await http.get(airport_uri_st, headers: {
       "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
       "x-rapidapi-host": "airport-info.p.rapidapi.com",
@@ -419,7 +439,7 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     });
 
     var airport_uri_nd =
-        Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_nd});
+    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_nd});
     var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
       "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
       "x-rapidapi-host": "airport-info.p.rapidapi.com",
