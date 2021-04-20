@@ -171,19 +171,28 @@ Widget elephantInfo = Container(
             ),
             Container(
               child: new InkWell(
-                  child: new Text("ICUN Article: \"African elephant species now Endangered and Critically Endangered - IUCN Red List\n"),
+                  child: new Text("ICUN Article: \"African elephant species now Endangered and Critically Endangered - IUCN Red List\n",
+                      style: TextStyle(
+                          color: Colors.blue[400])
+                  ),
                   onTap: () => launch('https://www.iucn.org/news/species/202103/african-elephant-species-now-endangered-and-critically-endangered-iucn-red-list')
               ),
             ),
             Container(
               child: new InkWell(
-                  child: new Text("Nature Geoscience Journal: \"Carbon stocks in central African forests enhanced by elephant disturbance\n"),
+                  child: new Text("Nature Geoscience Journal: \"Carbon stocks in central African forests enhanced by elephant disturbance\n",
+                      style: TextStyle(
+                      color: Colors.blue[400])
+                  ),
                   onTap: () => launch('https://www.nature.com/articles/s41561-019-0395-6')
               ),
             ),
             Container(
               child: new InkWell(
-                  child: new Text("New York Times: \"The Thick Gray Line: Forest Elephants Defend Against Climate Change\n"),
+                  child: new Text("New York Times: \"The Thick Gray Line: Forest Elephants Defend Against Climate Change\n",
+                      style: TextStyle(
+                          color: Colors.blue[400])
+                  ),
                   onTap: () => launch('https://www.nytimes.com/2019/08/19/science/elephants-climate-change.html')
               ),
             ),
