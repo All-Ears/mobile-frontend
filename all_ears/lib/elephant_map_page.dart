@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -50,7 +51,7 @@ class _ElephantPage extends State<ElephantPage> {
               padding: EdgeInsets.all(mainPading),
               children: [
                 Container(
-                  height: constraints.maxHeight - mainPading * 8,
+                  height: constraints.maxHeight - mainPading * 16,
                   child: SfMapsTheme(
                     data: SfMapsThemeData(
                       layerStrokeColor: Colors.white,
@@ -201,11 +202,11 @@ class _ElephantPage extends State<ElephantPage> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text('illegalCarcasses',
+                                    Text('Illegal Carcasses',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text('year',
+                                    Text('Year',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
@@ -230,13 +231,13 @@ class _ElephantPage extends State<ElephantPage> {
                             return Text(
                                 "Error loading elephant mortality data.");
                           } else {
-                            return Text('awaiting result...');
+                            return Text('Awaiting result...');
                           }
                         }),
                   ),
                 if (selectedIndex >= 0)
                   Container(
-                    height: constraints.maxHeight - mainPading * 3,
+                    height: constraints.maxHeight - mainPading * 14,
                     child: FutureBuilder(
                         future: countryInfo,
                         builder: (ctx, snapshot) {
@@ -274,12 +275,21 @@ class _ElephantPage extends State<ElephantPage> {
                                   )
                                 ]);
                           } else if (snapshot.hasError) {
-                            return Text("loading error...");
+                            return Text("Loading error...");
                           } else {
-                            return Text('awaiting result...');
+                            return Text('Awaiting result...');
                           }
                         }),
-                  )
+                  ),
+                Container(
+                  child: new InkWell(
+                      child: new Text("All poaching data is from the CITES MIKE database\n",
+                          style: TextStyle(
+                              color: Colors.blue[400])
+                      ),
+                      onTap: () => launch('https://cites.org/eng/prog/mike/index.php/portal')
+                  ),
+                ),
               ]);
         }));
   }
