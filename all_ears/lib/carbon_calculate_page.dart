@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'app_drawer.dart';
@@ -25,7 +25,8 @@ class CarbonCalculatePage extends StatefulWidget {
   _CarbonCalculatePage createState() => _CarbonCalculatePage();
 }
 
-class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProviderStateMixin {
+class _CarbonCalculatePage extends State<CarbonCalculatePage>
+    with TickerProviderStateMixin {
   AnimationController animationController;
   Animation animation;
   MapZoomPanBehavior _zoomPanBehavior;
@@ -54,7 +55,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
   @override
   void initState() {
     line = [
-      LineModel(MapLatLng(st_latitude, st_longitude), MapLatLng(nd_latitude, nd_longitude)),
+      LineModel(MapLatLng(st_latitude, st_longitude),
+          MapLatLng(nd_latitude, nd_longitude)),
     ];
 
     _zoomPanBehavior = MapZoomPanBehavior(
@@ -94,77 +96,82 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Container(
           color: Colors.white,
-          child: ListView(shrinkWrap: true, padding: EdgeInsets.all(mainPading), children: [
-            Container(
-              height: constraints.maxHeight / 1.5,
-              child: SfMapsTheme(
-                data: SfMapsThemeData(
-                  dataLabelTextStyle: TextStyle(
-                      color: Colors.red,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontFamily: 'Times'),
-                ),
-                child: SfMaps(
-                  layers: [
-                    MapTileLayer(
-                      urlTemplate:
+          child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(mainPading),
+              children: [
+                Container(
+                  height: constraints.maxHeight / 1.5,
+                  child: SfMapsTheme(
+                    data: SfMapsThemeData(
+                      dataLabelTextStyle: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          fontFamily: 'Times'),
+                    ),
+                    child: SfMaps(
+                      layers: [
+                        MapTileLayer(
+                          urlTemplate:
                           "https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=" +
                               MAPBOX_TOKEN,
-                      zoomPanBehavior: _zoomPanBehavior,
-                      sublayers: [
-                        MapArcLayer(
-                          arcs: List<MapArc>.generate(
-                            line.length,
-                            (int index) {
-                              return MapArc(
-                                from: line[index].from,
-                                to: line[index].to,
-                                dashArray: [8, 4, 3, 4],
-                              );
-                            },
-                          ).toSet(),
-                          color: Colors.blueAccent,
-                          animation: animation,
+                          zoomPanBehavior: _zoomPanBehavior,
+                          sublayers: [
+                            MapArcLayer(
+                              arcs: List<MapArc>.generate(
+                                line.length,
+                                    (int index) {
+                                  return MapArc(
+                                    from: line[index].from,
+                                    to: line[index].to,
+                                    dashArray: [8, 4, 3, 4],
+                                  );
+                                },
+                              ).toSet(),
+                              color: Colors.blueAccent,
+                              animation: animation,
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    ///.///////////////////////////////////////.///
-                    /// DISCLAIMER: INPUTS MUST BE CAPITALIZED! ///
-                    /// ISSUES: Some IATA codes doesn't work    ///
-                    /// due to the online airport API           ///
-                    ///.///////////////////////////////////////.///
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: DropdownSearch<AirCode>(
-                          searchBoxController: startPointController,
-                          validator: (v) => v == null ? "Required field" : null,
-                          showSearchBox: true,
-                          showClearButton: true,
-                          mode: Mode.DIALOG,
-                          label: "Origin airport",
-                          onFind: (String filter) => getData(filter),
-                          isFilteredOnline: true,
-                          filterFn: (user, filter) => user.filterByIata(filter),
-                          onChanged: (AirCode data) {
-                            setState(() {
-                              startPointController.text = data.iataCode;
-                            });
-                          }),
-                    ),
-                    // Layover? Maybe?
-                    /*
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        ///.///////////////////////////////////////.///
+                        /// DISCLAIMER: INPUTS MUST BE CAPITALIZED! ///
+                        /// ISSUES: Some IATA codes doesn't work    ///
+                        /// due to the online airport API           ///
+                        ///.///////////////////////////////////////.///
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          child: DropdownSearch<AirCode>(
+                              searchBoxController: startPointController,
+                              validator: (v) =>
+                              v == null ? "Required field" : null,
+                              showSearchBox: true,
+                              showClearButton: true,
+                              mode: Mode.DIALOG,
+                              label: "Origin airport",
+                              onFind: (String filter) => getData(filter),
+                              isFilteredOnline: true,
+                              filterFn: (user, filter) =>
+                                  user.filterByIata(filter),
+                              onChanged: (AirCode data) {
+                                setState(() {
+                                  startPointController.text = data.iataCode;
+                                });
+                              }),
+                        ),
+                        // Layover? Maybe?
+                        /*
                         DropdownSearch<AirCode>(
                             searchBoxController: startPointController,
                             //validator: (v) => v == null ? "Required field" : null,
@@ -183,159 +190,201 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
                         ),
                         */
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: DropdownSearch<AirCode>(
-                          searchBoxController: endPointController,
-                          validator: (v) => v == null ? "Required field" : null,
-                          showSearchBox: true,
-                          showClearButton: true,
-                          hint: "Select a location",
-                          mode: Mode.DIALOG,
-                          label: "Destination airport",
-                          onFind: (String filter) => getData(filter),
-                          isFilteredOnline: true,
-                          filterFn: (user, filter) => user.filterByIata(filter),
-                          onChanged: (AirCode data) {
-                            setState(() {
-                              endPointController.text = data.iataCode;
-                            });
-                          }),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: ElevatedButton(
-                          child: Text("Calculate"),
-                          onPressed: () {
-                            //print(startPointController.text);
-                            //print(endPointController.text);
-                            if ((_formKey.currentState.validate())) {
-                              get_airport_info(startPointController.text, endPointController.text)
-                                  .then((_) {
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: DropdownSearch<AirCode>(
+                              searchBoxController: endPointController,
+                              validator: (v) =>
+                              v == null ? "Required field" : null,
+                              showSearchBox: true,
+                              showClearButton: true,
+                              hint: "Select a location",
+                              mode: Mode.DIALOG,
+                              label: "Destination airport",
+                              onFind: (String filter) => getData(filter),
+                              isFilteredOnline: true,
+                              filterFn: (user, filter) =>
+                                  user.filterByIata(filter),
+                              onChanged: (AirCode data) {
                                 setState(() {
-                                  _zoomPanBehavior.focalLatLng = MapLatLng(
-                                      (st_latitude + nd_latitude) / 2,
-                                      (st_longitude + nd_longitude) / 2);
-                                  /* // Zoom values based on distance
-                                  if (calculateLngLat(line[0].from, line[0].to) >= 10000) {
-                                    _zoomPanBehavior.zoomLevel = 1;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 9999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 8000) {
-                                    _zoomPanBehavior.zoomLevel = 2;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 7999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 5000) {
-                                    _zoomPanBehavior.zoomLevel = 2.5;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 4999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 3000) {
-                                    _zoomPanBehavior.zoomLevel = 3;
-                                  } else if (calculateLngLat(line[0].from, line[0].to) <= 2999 &&
-                                      calculateLngLat(line[0].from, line[0].to) >= 1000) {
-                                    _zoomPanBehavior.zoomLevel = 4;
-                                  } else
-                                    _zoomPanBehavior.zoomLevel = 5;
-                                  */
-                                  line = [
-                                    LineModel(MapLatLng(st_latitude, st_longitude),
-                                        MapLatLng(nd_latitude, nd_longitude)),
-                                  ];
+                                  endPointController.text = data.iataCode;
                                 });
-                              });
-                            }
-                          },
-                        ))
-                  ],
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.black54,
-              thickness: 1.0,
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              color: Colors.white,
-              height: 250,
-              width: 400,
-              child: Opacity(
-                opacity: _opacity,
-                child: Table(
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  border: TableBorder.all(),
-                  children: <TableRow>[
-                    TableRow(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(color: Colors.tealAccent[100]),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                            child: Text('Airports', textAlign: TextAlign.center),
-                          ),
+                              }),
                         ),
-                        Container(
-                          decoration: BoxDecoration(color: Colors.tealAccent),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Text('Distance', textAlign: TextAlign.center),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(color: Colors.tealAccent[100]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text('Total Carbon Emitted', textAlign: TextAlign.center),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(color: Colors.tealAccent),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text('Suggested Donation', textAlign: TextAlign.center),
-                          ),
-                        )
+                        Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: ElevatedButton(
+                              child: Text("Calculate"),
+                              onPressed: () {
+                                //print(startPointController.text);
+                                //print(endPointController.text);
+                                if ((_formKey.currentState.validate())) {
+                                  get_airport_info(startPointController.text,
+                                      endPointController.text)
+                                      .then((_) {
+                                    setState(() {
+                                      /// Form Line
+                                      line = [
+                                        LineModel(
+                                            MapLatLng(
+                                                st_latitude, st_longitude),
+                                            MapLatLng(
+                                                nd_latitude, nd_longitude)),
+                                      ];
+
+                                      /// Pan camera based on midpoint
+                                      _zoomPanBehavior.focalLatLng = MapLatLng(
+                                          (st_latitude + nd_latitude) / 2,
+                                          (st_longitude + nd_longitude) / 2);
+
+                                      /// Zoom values based on distance
+                                      var distance = calculateLngLat(
+                                          line[0].from, line[0].to);
+                                      if (distance >= 10000) {
+                                        _zoomPanBehavior.zoomLevel = 1;
+                                      } else if (distance <= 9999 &&
+                                          distance >= 8000) {
+                                        _zoomPanBehavior.zoomLevel = 2;
+                                      } else if (distance <= 7999 &&
+                                          distance >= 5000) {
+                                        _zoomPanBehavior.zoomLevel = 2.5;
+                                      } else if (distance <= 4999 &&
+                                          distance >= 3000) {
+                                        _zoomPanBehavior.zoomLevel = 3;
+                                      } else if (distance <= 2999 &&
+                                          distance >= 1000) {
+                                        _zoomPanBehavior.zoomLevel = 4;
+                                      } else if (distance <= 999 &&
+                                          distance >= 500)
+                                        _zoomPanBehavior.zoomLevel = 5;
+                                      else
+                                        _zoomPanBehavior.zoomLevel = 8;
+                                    });
+                                  });
+                                }
+                              },
+                            ))
                       ],
                     ),
-                    TableRow(
-                      children: [
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              '$st_name and $nd_name',
-                              textAlign: TextAlign.center,
+                  ),
+                ),
+                Divider(
+                  color: Colors.black54,
+                  thickness: 1.0,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  color: Colors.white,
+                  height: 250,
+                  width: 400,
+                  child: Opacity(
+                    opacity: _opacity,
+                    child: Table(
+                      defaultVerticalAlignment:
+                      TableCellVerticalAlignment.middle,
+                      border: TableBorder.all(),
+                      children: <TableRow>[
+                        TableRow(
+                          children: <Widget>[
+                            Container(
+                              decoration:
+                              BoxDecoration(color: Colors.tealAccent[100]),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 15.0),
+                                child: Text('Airports',
+                                    textAlign: TextAlign.center),
+                              ),
+                            ),
+                            Container(
+                              decoration:
+                              BoxDecoration(color: Colors.tealAccent),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Text('Distance',
+                                    textAlign: TextAlign.center),
+                              ),
+                            ),
+                            Container(
+                              decoration:
+                              BoxDecoration(color: Colors.tealAccent[100]),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text('Total Carbon Emitted',
+                                    textAlign: TextAlign.center),
+                              ),
+                            ),
+                            Container(
+                              decoration:
+                              BoxDecoration(color: Colors.tealAccent),
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text('Suggested Donation',
+                                    textAlign: TextAlign.center),
+                              ),
+                            )
+                          ],
+                        ),
+                        TableRow(children: [
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                '$st_name and $nd_name',
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text('${calculateLngLat(line[0].from, line[0].to)} km',
-                                textAlign: TextAlign.center),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                  '${calculateLngLat(line[0].from, line[0].to)} km',
+                                  textAlign: TextAlign.center),
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).round()} kg',
-                                textAlign: TextAlign.center),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                  '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).toStringAsFixed(2)} kg',
+                                  textAlign: TextAlign.center),
+                            ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                                '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491 *.1).ceil()} USD',
-                                textAlign: TextAlign.center),
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Text(
+                                  '\$${(((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491)) * 0.41).ceil()}', // leave /1000 and no reason
+                                  textAlign: TextAlign.center),
+                            ),
                           ),
-                        ),
-
-                    ]),
-                  ],
+                        ]),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            )
-          ]),
+                Container(
+                    child: Text(
+                        "In lieu of the above donation amount you could donate \$25 to support a ranger for a day.")),
+                Container(
+                    child: Text(
+                        "An African forest elephant would cause 400.00 kg of carbon to be sequestered per year by keeping the forests healthy.")),
+                Container(
+                    child: Text(
+                        ' An African forest elephant would need to live for ${((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 49.1).round() / 400000).toStringAsFixed(2)} years to sequester that amount of carbon.')),
+                Container(
+                    child: Text(
+                        "*Due to mapping limitations, the line drawn on the map may not be the actual flight path of the plane. Regardless, the distance calculated is the shortest distance between the two airports.")),
+                Container(
+                  child: new InkWell(
+                      child: new Text("**Our carbon emmision values use methods from the UK National Energy Foundation's Carbon Calculator"), //text style stuff for "Carbon Calculator"
+                      onTap: () => launch('http://www.carbon-calculator.org.uk/')
+                  ),
+                ),
+              ]),
         );
       }),
     );
@@ -343,7 +392,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
 
 
   Future<List<AirCode>> getData(filter) async {
-    var response = await DefaultAssetBundle.of(context).loadString("assets/map/airports.json");
+    var response = await DefaultAssetBundle.of(context)
+        .loadString("assets/map/airports.json");
     if (response != null) {
       var parse_body = jsonDecode(response);
       //print(parse_body);
@@ -354,8 +404,10 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
   }
 
   Future<void> get_airport_info(String startCode, String endCode) async {
-    var response_st = await DefaultAssetBundle.of(context).loadString("assets/map/airports.json");
-    var response_nd = await DefaultAssetBundle.of(context).loadString("assets/map/airports.json");
+    var response_st = await DefaultAssetBundle.of(context)
+        .loadString("assets/map/airports.json");
+    var response_nd = await DefaultAssetBundle.of(context)
+        .loadString("assets/map/airports.json");
 
     var parsed_body_st = jsonDecode(response_st);
     var parsed_body_nd = jsonDecode(response_nd);
@@ -378,14 +430,16 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage> with TickerProvide
     print(iata_st);
     print(iata_nd);
 
-    var airport_uri_st = Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_st});
+    var airport_uri_st =
+    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_st});
     var airPortLocation_st = await http.get(airport_uri_st, headers: {
       "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
       "x-rapidapi-host": "airport-info.p.rapidapi.com",
       "useQueryString": 'true'
     });
 
-    var airport_uri_nd = Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_nd});
+    var airport_uri_nd =
+    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_nd});
     var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
       "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
       "x-rapidapi-host": "airport-info.p.rapidapi.com",
@@ -448,7 +502,10 @@ class AirCode {
   bool filterByIata(String filter) {
     return this.iataCode.toString().startsWith(filter) ||
         this.location.toString().startsWith(filter) ||
-        this.city.toString().startsWith(filter);
+        this.city.toString().startsWith(filter) ||
+        this.iataCode.toString().toLowerCase().startsWith(filter) ||
+        this.location.toString().toLowerCase().startsWith(filter) ||
+        this.city.toString().toLowerCase().startsWith(filter);
   }
 
   ///custom comparing function to check if two users are equal
@@ -460,11 +517,8 @@ class AirCode {
   String toString() => userAsString();
 }
 
-class toUpperCase extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    return newValue.copyWith(text: newValue.text.toUpperCase());
-  }
+bool equalsIgnoreCase(String string1, String string2) {
+  return string1?.toLowerCase() == string2?.toLowerCase();
 }
 
 class LineModel {

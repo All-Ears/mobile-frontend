@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'app_drawer.dart';
 
+// elephant background
 class HomeRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,18 @@ class HomeRoute extends StatelessWidget {
         child: Center(
             child: Column(
               children: <Widget>[
-                Text('Why should you care?', style: TextStyle(fontSize: 25)),
+                Text(
+                  "An educational tool about African forest elephants and Carbon Emissions \n",
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  'Why should you care?',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
                 RaisedButton(
                   child: Text('About',
                       style: TextStyle(
@@ -29,8 +41,11 @@ class HomeRoute extends StatelessWidget {
                     Navigator.pushNamed(context, '/second');
                   },
                 ),
-                Text('How much carbon do flights emit?',
-                    style: TextStyle(fontSize: 25)),
+                Text(
+                  'Want to calculate your Elephant Footprint?',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
                 RaisedButton(
                   child: Text('Carbon Calculator',
                       style: TextStyle(
@@ -40,8 +55,11 @@ class HomeRoute extends StatelessWidget {
                     Navigator.pushNamed(context, '/third');
                   },
                 ),
-                Text('Want to help the forest elephants?',
-                    style: TextStyle(fontSize: 25)),
+                Text(
+                  'Want to help the forest elephants?',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
                 RaisedButton(
                   child: Text('Donate',
                       style: TextStyle(
@@ -51,7 +69,11 @@ class HomeRoute extends StatelessWidget {
                     Navigator.pushNamed(context, '/fourth');
                   },
                 ),
-                Text('Where are these elephants?', style: TextStyle(fontSize: 25)),
+                Text(
+                  'Where are these elephants?',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
+                ),
                 RaisedButton(
                   child: Text('Elephant Map',
                       style: TextStyle(
