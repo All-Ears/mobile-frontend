@@ -12,6 +12,8 @@ import 'package:dropdown_search/dropdown_search.dart';
 
 const MAPBOX_TOKEN =
     "pk.eyJ1Ijoid2VpbmJlcmdlcmphcmVkIiwiYSI6ImNraTJlZ3JsMzA5bWwycW1pbWp5OHAzd2sifQ.8kHj1dSkSP7DXJOAFhnL8w";
+const AIRPORT_API_KEY = "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab";
+const AIRPORT_API_DOMAIN = 'airport-info.p.rapidapi.com';
 
 final startPointController = TextEditingController();
 final endPointController = TextEditingController();
@@ -30,35 +32,32 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
   AnimationController animationController;
   Animation animation;
   MapZoomPanBehavior _zoomPanBehavior;
-  List<LineModel> line;
+  List<LineModel> line = List<LineModel>.empty();
   //MapShapeSource worldmap;
   //String userInput;
-  double st_latitude = 0.0;
-  double st_longitude = 0.0;
-  var st_name;
+  double startLatitude = 0.0;
+  double startLongitude = 0.0;
+  String startName;
 
-  /* // layover
-  double st_latitude = 0.0;
-  double st_longitude = 0.0;
-  var st_name;
-  */
-
-  double nd_latitude = 0.0;
-  double nd_longitude = 0.0;
-  var nd_name;
+  double endLatitude = 0.0;
+  double endLongitude = 0.0;
+  String endName;
   //int selectedIndex;
   double _opacity = 0.0;
+
+  bool hasValidAirports() {
+    return startLatitude != 0 &&
+        endLatitude != 0 &&
+        startLongitude != 0 &&
+        endLongitude != 0 &&
+        problemAirports.length == 0;
+  }
 
   final _formKey = GlobalKey<FormState>();
   //final _selectedIataCode = GlobalKey<DropdownSearchState<String>>();
 
   @override
   void initState() {
-    line = [
-      LineModel(MapLatLng(st_latitude, st_longitude),
-          MapLatLng(nd_latitude, nd_longitude)),
-    ];
-
     _zoomPanBehavior = MapZoomPanBehavior(
       enablePinching: true,
       focalLatLng: MapLatLng(0, 0),
@@ -78,6 +77,8 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     super.initState();
   }
 
+  List<Map<String, String>> problemAirports = <Map<String, String>>[];
+
   @override
   void dispose() {
     animationController?.dispose();
@@ -88,6 +89,112 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
   Widget build(BuildContext context) {
     const mainPading = 14.0;
 
+    List<Widget> donationInfoSection = List<Widget>.empty();
+    if (hasValidAirports()) {
+      donationInfoSection = List<Widget>.from([
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          color: Colors.white,
+          height: 250,
+          width: 400,
+          child: Opacity(
+            opacity: _opacity,
+            child: Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              border: TableBorder.all(),
+              children: <TableRow>[
+                TableRow(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(color: Colors.tealAccent[100]),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 15.0),
+                        child: Text('Airports', textAlign: TextAlign.center),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.tealAccent),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Text('Distance', textAlign: TextAlign.center),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.tealAccent[100]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text('Total Carbon Emitted',
+                            textAlign: TextAlign.center),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.tealAccent),
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text('Suggested Donation',
+                            textAlign: TextAlign.center),
+                      ),
+                    )
+                  ],
+                ),
+                TableRow(children: [
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                        '$startName and $endName',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                          '${calculateLngLat(line[0].from, line[0].to)} km',
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                          '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).toStringAsFixed(2)} kg',
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Text(
+                          '\$${(((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491)) * 0.41).ceil()}', // leave /1000 and no reason
+                          textAlign: TextAlign.center),
+                    ),
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        ),
+        Container(
+            child: Text(
+                "In lieu of the above donation amount you could donate \$25 to support a ranger for a day.")),
+        Container(
+            child: Text(
+                "An African forest elephant would cause 400.00 kg of carbon to be sequestered per year by keeping the forests healthy.")),
+        Container(
+            child: Text(
+                ' An African forest elephant would need to live for ${((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 49.1).round() / 400000).toStringAsFixed(2)} years to sequester that amount of carbon.'))
+      ]);
+    }
+    List<Widget> errorSection =
+        List.of(problemAirports.map((problemAirport) => Container(
+                child: Text(
+              "${problemAirport["location"]} does not have any location information available.",
+              style: TextStyle(color: Colors.red),
+            ))));
     return Scaffold(
       appBar: AppBar(
         title: Text('Carbon Calculator'),
@@ -115,14 +222,14 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                       layers: [
                         MapTileLayer(
                           urlTemplate:
-                          "https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=" +
-                              MAPBOX_TOKEN,
+                              "https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=" +
+                                  MAPBOX_TOKEN,
                           zoomPanBehavior: _zoomPanBehavior,
                           sublayers: [
                             MapArcLayer(
                               arcs: List<MapArc>.generate(
                                 line.length,
-                                    (int index) {
+                                (int index) {
                                   return MapArc(
                                     from: line[index].from,
                                     to: line[index].to,
@@ -152,10 +259,10 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                         ///.///////////////////////////////////////.///
                         Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: DropdownSearch<AirCode>(
+                          child: DropdownSearch<PartialAirportInfo>(
                               searchBoxController: startPointController,
                               validator: (v) =>
-                              v == null ? "Required field" : null,
+                                  v == null ? "Required field" : null,
                               showSearchBox: true,
                               showClearButton: true,
                               mode: Mode.DIALOG,
@@ -164,38 +271,18 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                               isFilteredOnline: true,
                               filterFn: (user, filter) =>
                                   user.filterByIata(filter),
-                              onChanged: (AirCode data) {
+                              onChanged: (PartialAirportInfo data) {
                                 setState(() {
                                   startPointController.text = data.iataCode;
                                 });
                               }),
                         ),
-                        // Layover? Maybe?
-                        /*
-                        DropdownSearch<AirCode>(
-                            searchBoxController: startPointController,
-                            //validator: (v) => v == null ? "Required field" : null,
-                            showSearchBox: true,
-                            showClearButton: true,
-                            mode: Mode.DIALOG,
-                            label: "Add a layover",
-                            onFind: (String filter) => getData(filter),
-                            isFilteredOnline: true,
-                            filterFn: (user, filter) => user.filterByIata(filter),
-                            onChanged: (AirCode data) {
-                              setState(() {
-                                startPointController.text = data.iataCode;
-                              });
-                            }
-                        ),
-                        */
-
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: DropdownSearch<AirCode>(
+                          child: DropdownSearch<PartialAirportInfo>(
                               searchBoxController: endPointController,
                               validator: (v) =>
-                              v == null ? "Required field" : null,
+                                  v == null ? "Required field" : null,
                               showSearchBox: true,
                               showClearButton: true,
                               hint: "Select a location",
@@ -205,9 +292,9 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                               isFilteredOnline: true,
                               filterFn: (user, filter) =>
                                   user.filterByIata(filter),
-                              onChanged: (AirCode data) {
+                              onChanged: (PartialAirportInfo data) {
                                 setState(() {
-                                  endPointController.text = data.iataCode;
+                                  endPointController.text = data?.iataCode;
                                 });
                               }),
                         ),
@@ -219,47 +306,54 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                                 //print(startPointController.text);
                                 //print(endPointController.text);
                                 if ((_formKey.currentState.validate())) {
-                                  get_airport_info(startPointController.text,
-                                      endPointController.text)
+                                  getAirportInfo(startPointController.text,
+                                          endPointController.text)
                                       .then((_) {
-                                    setState(() {
-                                      /// Form Line
-                                      line = [
-                                        LineModel(
-                                            MapLatLng(
-                                                st_latitude, st_longitude),
-                                            MapLatLng(
-                                                nd_latitude, nd_longitude)),
-                                      ];
+                                    print(errorSection);
+                                    if (hasValidAirports()) {
+                                      setState(() {
+                                        /// Form Line
+                                        line = [
+                                          LineModel(
+                                              MapLatLng(startLatitude,
+                                                  startLongitude),
+                                              MapLatLng(
+                                                  endLatitude, endLongitude)),
+                                        ];
 
-                                      /// Pan camera based on midpoint
-                                      _zoomPanBehavior.focalLatLng = MapLatLng(
-                                          (st_latitude + nd_latitude) / 2,
-                                          (st_longitude + nd_longitude) / 2);
+                                        /// Pan camera based on midpoint
+                                        _zoomPanBehavior.focalLatLng =
+                                            MapLatLng(
+                                                (startLatitude + endLatitude) /
+                                                    2,
+                                                (startLongitude +
+                                                        endLongitude) /
+                                                    2);
 
-                                      /// Zoom values based on distance
-                                      var distance = calculateLngLat(
-                                          line[0].from, line[0].to);
-                                      if (distance >= 10000) {
-                                        _zoomPanBehavior.zoomLevel = 1;
-                                      } else if (distance <= 9999 &&
-                                          distance >= 8000) {
-                                        _zoomPanBehavior.zoomLevel = 2;
-                                      } else if (distance <= 7999 &&
-                                          distance >= 5000) {
-                                        _zoomPanBehavior.zoomLevel = 2.5;
-                                      } else if (distance <= 4999 &&
-                                          distance >= 3000) {
-                                        _zoomPanBehavior.zoomLevel = 3;
-                                      } else if (distance <= 2999 &&
-                                          distance >= 1000) {
-                                        _zoomPanBehavior.zoomLevel = 4;
-                                      } else if (distance <= 999 &&
-                                          distance >= 500)
-                                        _zoomPanBehavior.zoomLevel = 5;
-                                      else
-                                        _zoomPanBehavior.zoomLevel = 8;
-                                    });
+                                        /// Zoom values based on distance
+                                        var distance = calculateLngLat(
+                                            line[0].from, line[0].to);
+                                        if (distance >= 10000) {
+                                          _zoomPanBehavior.zoomLevel = 1;
+                                        } else if (distance <= 9999 &&
+                                            distance >= 8000) {
+                                          _zoomPanBehavior.zoomLevel = 2;
+                                        } else if (distance <= 7999 &&
+                                            distance >= 5000) {
+                                          _zoomPanBehavior.zoomLevel = 2.5;
+                                        } else if (distance <= 4999 &&
+                                            distance >= 3000) {
+                                          _zoomPanBehavior.zoomLevel = 3;
+                                        } else if (distance <= 2999 &&
+                                            distance >= 1000) {
+                                          _zoomPanBehavior.zoomLevel = 4;
+                                        } else if (distance <= 999 &&
+                                            distance >= 500)
+                                          _zoomPanBehavior.zoomLevel = 5;
+                                        else
+                                          _zoomPanBehavior.zoomLevel = 8;
+                                      });
+                                    }
                                   });
                                 }
                               },
@@ -268,121 +362,21 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
                     ),
                   ),
                 ),
+                ...errorSection,
                 Divider(
                   color: Colors.black54,
                   thickness: 1.0,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  color: Colors.white,
-                  height: 250,
-                  width: 400,
-                  child: Opacity(
-                    opacity: _opacity,
-                    child: Table(
-                      defaultVerticalAlignment:
-                      TableCellVerticalAlignment.middle,
-                      border: TableBorder.all(),
-                      children: <TableRow>[
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              decoration:
-                              BoxDecoration(color: Colors.tealAccent[100]),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
-                                child: Text('Airports',
-                                    textAlign: TextAlign.center),
-                              ),
-                            ),
-                            Container(
-                              decoration:
-                              BoxDecoration(color: Colors.tealAccent),
-                              child: Padding(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Text('Distance',
-                                    textAlign: TextAlign.center),
-                              ),
-                            ),
-                            Container(
-                              decoration:
-                              BoxDecoration(color: Colors.tealAccent[100]),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text('Total Carbon Emitted',
-                                    textAlign: TextAlign.center),
-                              ),
-                            ),
-                            Container(
-                              decoration:
-                              BoxDecoration(color: Colors.tealAccent),
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Text('Suggested Donation',
-                                    textAlign: TextAlign.center),
-                              ),
-                            )
-                          ],
-                        ),
-                        TableRow(children: [
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Text(
-                                '$st_name and $nd_name',
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Text(
-                                  '${calculateLngLat(line[0].from, line[0].to)} km',
-                                  textAlign: TextAlign.center),
-                            ),
-                          ),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Text(
-                                  '${(calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491).toStringAsFixed(2)} kg',
-                                  textAlign: TextAlign.center),
-                            ),
-                          ),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Text(
-                                  '\$${(((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 0.0491)) * 0.41).ceil()}', // leave /1000 and no reason
-                                  textAlign: TextAlign.center),
-                            ),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                    child: Text(
-                        "In lieu of the above donation amount you could donate \$25 to support a ranger for a day.")),
-                Container(
-                    child: Text(
-                        "An African forest elephant would cause 400.00 kg of carbon to be sequestered per year by keeping the forests healthy.")),
-                Container(
-                    child: Text(
-                        ' An African forest elephant would need to live for ${((calculateLngLat(line[0].from, line[0].to) * (12 / 44) * 49.1).round() / 400000).toStringAsFixed(2)} years to sequester that amount of carbon.')),
+                ...donationInfoSection,
                 Container(
                     child: Text(
                         "*Due to mapping limitations, the line drawn on the map may not be the actual flight path of the plane. Regardless, the distance calculated is the shortest distance between the two airports.")),
                 Container(
                   child: new InkWell(
-                      child: new Text("**Our carbon emmision values use methods from the UK National Energy Foundation's Carbon Calculator"), //text style stuff for "Carbon Calculator"
-                      onTap: () => launch('http://www.carbon-calculator.org.uk/')
-                  ),
+                      child: new Text(
+                          "**Our carbon emmision values use methods from the UK National Energy Foundation's Carbon Calculator"), //text style stuff for "Carbon Calculator"
+                      onTap: () =>
+                          launch('http://www.carbon-calculator.org.uk/')),
                 ),
               ]),
         );
@@ -390,107 +384,99 @@ class _CarbonCalculatePage extends State<CarbonCalculatePage>
     );
   }
 
-
-  Future<List<AirCode>> getData(filter) async {
+  Future<List<PartialAirportInfo>> getData(filter) async {
     var response = await DefaultAssetBundle.of(context)
         .loadString("assets/map/airports.json");
     if (response != null) {
-      var parse_body = jsonDecode(response);
+      var parsedBody = jsonDecode(response);
       //print(parse_body);
-      return List<AirCode>.from(parse_body.map((x) => AirCode.fromJson(x)));
+      return List<PartialAirportInfo>.from(
+          parsedBody.map((x) => PartialAirportInfo.fromJson(x)));
     } else {
       throw Exception('Failed to load the Json file');
     }
   }
 
-  Future<void> get_airport_info(String startCode, String endCode) async {
-    var response_st = await DefaultAssetBundle.of(context)
+  Future<void> getAirportInfo(String startCode, String endCode) async {
+    setState(() {
+      problemAirports.clear();
+    });
+    var rawAirportCodes = await DefaultAssetBundle.of(context)
         .loadString("assets/map/airports.json");
-    var response_nd = await DefaultAssetBundle.of(context)
-        .loadString("assets/map/airports.json");
+    var airportInfos = jsonDecode(rawAirportCodes);
 
-    var parsed_body_st = jsonDecode(response_st);
-    var parsed_body_nd = jsonDecode(response_nd);
-    //print(parsed_body_st[0]['iataCode']);
-    //print(parsed_body_st.length);
-
-    int index_st = 0;
-    int index_nd = 0;
-    for (int i = 0; i < parsed_body_st.length; i++) {
-      if (parsed_body_st[i]['iataCode'] == startCode) {
-        index_st = i;
+    Map<String, String> startAirport = null, endAirport = null;
+    for (var airportInfo in airportInfos) {
+      if (startAirport != null && endAirport != null) {
+        break;
       }
-      if (parsed_body_nd[i]['iataCode'] == endCode) {
-        index_nd = i;
+      if (startAirport == null && airportInfo["iataCode"] == startCode) {
+        startAirport = Map.from(airportInfo);
+      }
+      if (endAirport == null && airportInfo["iataCode"] == endCode) {
+        endAirport = Map.from(airportInfo);
       }
     }
-    print(index_st);
-    var iata_st = parsed_body_st[index_st]['iataCode'];
-    var iata_nd = parsed_body_nd[index_nd]['iataCode'];
-    print(iata_st);
-    print(iata_nd);
 
-    var airport_uri_st =
-    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_st});
-    var airPortLocation_st = await http.get(airport_uri_st, headers: {
-      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-      "x-rapidapi-host": "airport-info.p.rapidapi.com",
+    var startAirportQueryUri = Uri.https(
+        AIRPORT_API_DOMAIN, '/airport', {'iata': startAirport["iataCode"]});
+    var startAirportQueryRespose =
+        await http.get(startAirportQueryUri, headers: {
+      "x-rapidapi-key": AIRPORT_API_KEY,
+      "x-rapidapi-host": AIRPORT_API_DOMAIN,
       "useQueryString": 'true'
     });
 
-    var airport_uri_nd =
-    Uri.https('airport-info.p.rapidapi.com', '/airport', {'iata': iata_nd});
-    var airPortLocation_nd = await http.get(airport_uri_nd, headers: {
-      "x-rapidapi-key": "1d0ea57848mshedfd4d93a4c05d9p1fee9fjsn2ebcd1d49bab",
-      "x-rapidapi-host": "airport-info.p.rapidapi.com",
+    var endAirportQueryUri = Uri.https(
+        AIRPORT_API_DOMAIN, '/airport', {'iata': endAirport["iataCode"]});
+    var endAirportQueryResponse = await http.get(endAirportQueryUri, headers: {
+      "x-rapidapi-key": AIRPORT_API_KEY,
+      "x-rapidapi-host": AIRPORT_API_DOMAIN,
       "useQueryString": 'true'
     });
 
-    print(airPortLocation_st.body);
-    print(airPortLocation_nd.body);
-
-    var parse_body_st = jsonDecode(airPortLocation_st.body);
-    var parse_body_nd = jsonDecode(airPortLocation_nd.body);
-
-    print(parse_body_st['latitude']);
-    print(parse_body_st['longitude']);
-
-    print(parse_body_nd['latitude']);
-    print(parse_body_nd['longitude']);
+    var startResponseBody = jsonDecode(startAirportQueryRespose.body);
+    var endResponseBody = jsonDecode(endAirportQueryResponse.body);
 
     setState(() {
-      st_latitude = parse_body_st['latitude'];
-      st_longitude = parse_body_st['longitude'];
-      st_name = parse_body_st['name'];
+      startLatitude = startResponseBody['latitude']?.toDouble() ?? 0;
+      startLongitude = startResponseBody['longitude']?.toDouble() ?? 0;
+      startName = startResponseBody['name'];
+      if (startLatitude == 0 || startLongitude == 0) {
+        problemAirports.add(startAirport);
+      }
 
-      nd_latitude = parse_body_nd['latitude'];
-      nd_longitude = parse_body_nd['longitude'];
-      nd_name = parse_body_nd['name'];
+      endLatitude = endResponseBody['latitude'].toDouble() ?? 0;
+      endLongitude = endResponseBody['longitude'].toDouble() ?? 0;
+      endName = endResponseBody['name'];
+      if (endLatitude == 0 || endLongitude == 0) {
+        problemAirports.add(endAirport);
+      }
 
       _opacity = 1.0;
     });
   }
 }
 
-class AirCode {
+class PartialAirportInfo {
   final String city;
   final String location;
   final String iataCode;
 
-  AirCode({this.city, this.location, this.iataCode});
+  PartialAirportInfo({this.city, this.location, this.iataCode});
 
-  factory AirCode.fromJson(Map<String, dynamic> json) {
+  factory PartialAirportInfo.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
-    return AirCode(
+    return PartialAirportInfo(
       city: json["city"],
       location: json["location"],
       iataCode: json["iataCode"],
     );
   }
 
-  static List<AirCode> fromJsonList(List list) {
+  static List<PartialAirportInfo> fromJsonList(List list) {
     if (list == null) return null;
-    return list.map((item) => AirCode.fromJson(item)).toList();
+    return list.map((item) => PartialAirportInfo.fromJson(item)).toList();
   }
 
   ///this method will prevent the override of toString
@@ -509,7 +495,7 @@ class AirCode {
   }
 
   ///custom comparing function to check if two users are equal
-  bool isEqual(AirCode model) {
+  bool isEqual(PartialAirportInfo model) {
     return this.iataCode == model.iataCode;
   }
 
