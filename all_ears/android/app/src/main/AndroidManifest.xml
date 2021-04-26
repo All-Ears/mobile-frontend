@@ -8,7 +8,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="all_ears"
+        android:label="Elephant Footprinta"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
